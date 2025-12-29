@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+:root {
+  font-family: "Poppins", sans-serif;
+  color-scheme: dark;
+  --background-color-light: #ffffff;
+  --text-color-light: #333333;
+}
+
+[data-theme="dark"] {
+  --background-color-dark: #222222;
+  --text-color-dark: #f0f0f0;
+}
+
+body {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+[data-theme="dark"] body {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+/* .marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+} */
+
+@keyframes slide_players {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+.animate-player-slide {
+  animation: slide_players 10s linear infinite;
+}

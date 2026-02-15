@@ -1,222 +1,221 @@
 // src/pages/PlayerDetail.jsx
 import React, { useMemo, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import playersData from "../data/players.json";
+import playersData from "../Backend/data/players.json";
 import "../css/PlayerDetail.css";
-import { TEAM_COLORS } from "../constants/teamColors";
 
-function inchesToFeet(inches) {
-  if (!inches) return "-";
-  const ft = Math.floor(inches / 12);
-  const rem = inches % 12;
-  return `${ft}'${rem}"`;
+function formatHeight(height) {
+  if (!height) return "-";
+  // Height comes as "6-7" format from NBA API
+  return height;
 }
 
-// Take the players.json object and adapt it to the old shape
-function mapPlayerFromJson(p) {
-  if (!p) return null;
-
-  const nbaRef = p.nbaId || p.reference || null;
-
-  return {
-    id: p.id,
-    name: p.full_name,
-    firstName: p.first_name,
-    lastName: p.last_name,
-
-    teamName: p.team_name,
-    teamMarket: p.team_market,
-    teamAlias: p.team_alias,
-
-    status: p.status,
-    position: p.position,
-    jersey: p.jersey_number,
-    heightIn: p.height,
-    weightLb: p.weight,
-    birthdate: p.birthdate,
-    birthPlace: p.birth_place,
-    rookieYear: p.rookie_year,
-    salary: p.salary,
-
-    nbaId: nbaRef,
-    imgUrl: nbaRef
-      ? `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${nbaRef}.png`
-      : null,
-
-    ppg: p.ppg,
-    rpg: p.rpg,
-    apg: p.apg,
-    mpg: p.mpg,
-    spg: p.spg,
-    bpg: p.bpg,
-    topg: p.topg,
-    ts: p.ts,
-    usage: p.usage,
-    eff: p.eff,
-  };
-}
-
-/* The Stat Component would look something like this: */
-const Stat = ({ label, value, pct, size }) => (
-  <div className="flex flex-col">
-    {/* Label: Smaller and dimmer */}
-    <span className="text-neutral-400 text-xs uppercase tracking-wider order-2 mt-1">
-      {label}
-    </span>
-    {/* Value: Conditional sizing */}
+const Stat = ({ label, value, suffix = "", size = "normal" }) => (
+  <div className="stat-item">
+    <span className="stat-label">{label}</span>
     <span
-      className={`order-1 ${
-        size === "large"
-          ? "text-4xl font-extrabold text-white"
-          : "text-xl font-semibold text-neutral-200"
-      }`}
+      className={`stat-value ${size === "large" ? "stat-value-large" : ""}`}
     >
-      {value || "-"}
-      {pct && "%"}
+      {value != null ? `${value}${suffix}` : "-"}
     </span>
   </div>
 );
 
+const getTeamLogoUrl = (teamId) => {
+  if (!teamId) return null;
+  return `https://cdn.nba.com/logos/nba/${teamId}/global/L/logo.svg`;
+};
+
 export default function PlayerDetail() {
   const { id } = useParams();
 
-  // scroll to top when you hit a player page
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   const player = useMemo(() => {
-    const raw = playersData.find((p) => p.id === id);
-    return mapPlayerFromJson(raw);
+    return playersData.find((p) => String(p.id) === String(id));
   }, [id]);
-
-  const color = TEAM_COLORS[player.teamAlias] || "#111827";
 
   if (!player) {
     return (
-      <div className="min-h-screen bg-neutral-900 text-neutral-100 p-8">
-        <p className="mb-4">Player not found.</p>
-        <Link to={-1} className="underline text-purple-400">
-          ← Back
+      <div className="player-not-found">
+        <p>Player not found.</p>
+        <Link to="/teams" className="back-link">
+          ← Back to Teams
         </Link>
       </div>
     );
   }
 
+  const playerImageUrl = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`;
+  const teamLogo = getTeamLogoUrl(player.team_id);
+
+  // Calculate age from birthdate
+  const age = player.birthdate
+    ? Math.floor(
+        (new Date() - new Date(player.birthdate)) /
+          (365.25 * 24 * 60 * 60 * 1000),
+      )
+    : null;
+
   return (
-    <div
-      className="player-detail-page"
-      style={{
-        // STRONGER GRADIENT: Increased opacity and wider spread for the team color
-        background: `radial-gradient(circle at top, ${color}C0 0, #050509 60%)`, // C0 is ~75% opacity
-      }}
-    >
-      <div className="min-h-screen text-neutral-100 px-4 sm:px-8 py-6">
-        <div className="max-w-4xl mx-auto">
-          <Link to={-1} className="text-sm text-neutral-400 hover:text-white">
-            ← Back
+    <div className="player-detail-page">
+      {/* Hero Section */}
+      <div className="player-hero">
+        <div className="player-hero-content">
+          <Link to="/teams" className="back-link">
+            ← Back to Teams
           </Link>
 
-          <div className="mt-6 flex flex-col sm:flex-row gap-8 items-start">
-            {/* Headshot */}
-            <div
-              className={`p-1 rounded-full border-4 shadow-xl`}
-              style={{ borderColor: `${color}4D` }}
-            >
-              {player.imgUrl ? (
-                <img
-                  src={player.imgUrl}
-                  alt={player.name}
-                  className="w-[140px] h-[140px] object-cover rounded-full"
-                />
-              ) : (
-                <div className="w-[140px] h-[140px] flex items-center justify-center text-neutral-500 rounded-full bg-neutral-800 text-sm">
-                  No image
+          <div className="player-header">
+            {/* Player Image */}
+            <div className="player-image-wrapper">
+              <img
+                src={playerImageUrl}
+                alt={player.full_name}
+                className="player-image"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  e.target.nextElementSibling.style.display = "flex";
+                }}
+              />
+              <div className="player-image-placeholder">
+                <span>
+                  {player.first_name?.[0]}
+                  {player.last_name?.[0]}
+                </span>
+              </div>
+            </div>
+
+            {/* Player Info */}
+            <div className="player-info">
+              <div className="player-title">
+                <h1>{player.full_name}</h1>
+                {player.jersey_number && (
+                  <span className="jersey-badge">#{player.jersey_number}</span>
+                )}
+              </div>
+
+              <div className="player-team-info">
+                {teamLogo && (
+                  <img
+                    src={teamLogo}
+                    alt="Team logo"
+                    className="team-logo-small"
+                  />
+                )}
+                <span className="team-name">{player.team_name}</span>
+                <span className="position-badge">{player.position}</span>
+              </div>
+
+              {/* Quick Stats Grid */}
+              <div className="player-quick-stats">
+                <div className="quick-stat">
+                  <span className="quick-stat-label">Height</span>
+                  <span className="quick-stat-value">
+                    {formatHeight(player.height)}
+                  </span>
+                </div>
+                <div className="quick-stat">
+                  <span className="quick-stat-label">Weight</span>
+                  <span className="quick-stat-value">
+                    {player.weight ? `${player.weight} lbs` : "-"}
+                  </span>
+                </div>
+                {age && (
+                  <div className="quick-stat">
+                    <span className="quick-stat-label">Age</span>
+                    <span className="quick-stat-value">{age}</span>
+                  </div>
+                )}
+                {player.school && (
+                  <div className="quick-stat">
+                    <span className="quick-stat-label">College</span>
+                    <span className="quick-stat-value">{player.school}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Draft Info */}
+              {player.draft_year && (
+                <div className="draft-info">
+                  <span className="draft-label">Draft:</span>
+                  <span className="draft-value">
+                    {player.draft_year} · Round {player.draft_round || "?"} ·
+                    Pick #{player.draft_number || "?"}
+                  </span>
                 </div>
               )}
             </div>
-
-            {/* Basic info */}
-            <div className="flex-1">
-              <h1 className="text-5xl font-extrabold mb-1 tracking-tight">
-                {player.name}
-              </h1>
-
-              <p className="text-neutral-300 mb-2 text-lg">
-                {player.teamMarket} {player.teamName} ·{" "}
-                <span className="font-bold" style={{ color: color }}>
-                  {player.position}
-                </span>{" "}
-                {player.jersey && (
-                  <span style={{ color: color }}>· #{player.jersey}</span>
-                )}
-              </p>
-
-              <div
-                className="inline-block px-3 py-1 rounded-full text-xs uppercase tracking-widest font-semibold"
-                style={{ background: `${color}20`, color: color }}
-              >
-                {player.status || "N/A"}
-              </div>
-
-              {/* Biographical Info */}
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-y-3 text-sm text-neutral-300">
-                {/* ... (Existing bio divs) ... */}
-                <div>
-                  <span className="text-neutral-500">Height</span>
-                  <div>{inchesToFeet(player.heightIn)}</div>
-                </div>
-                <div>
-                  <span className="text-neutral-500">Weight</span>
-                  <div>{player.weightLb ? `${player.weightLb} lb` : "-"}</div>
-                </div>
-                <div>
-                  <span className="text-neutral-500">Born</span>
-                  <div>
-                    {player.birthdate || "-"}
-                    {player.birthPlace && ` · ${player.birthPlace}`}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-neutral-500">Rookie Year</span>
-                  <div>{player.rookieYear || "-"}</div>
-                </div>
-                <div>
-                  <span className="text-neutral-500">Salary</span>
-                  <div>
-                    {player.salary ? `$${player.salary.toLocaleString()}` : "-"}
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
+        </div>
+      </div>
 
-          {/* Stats card: Add subtle colored shadow */}
-          <div
-            className="mt-12 bg-neutral-900/80 rounded-xl p-4 sm:p-8 shadow-2xl border border-neutral-700/50"
-            style={{ boxShadow: `0 10px 40px -8px ${color}80` }} // Team color glow
-          >
-            <h2 className="text-2xl font-bold mb-6 text-neutral-100">
-              Season Averages
-            </h2>
+      {/* Stats Section */}
+      <div className="player-stats-section">
+        <div className="stats-container">
+          {/* Primary Stats */}
+          <div className="stats-card stats-card-primary">
+            <h2 className="stats-title">Season Averages</h2>
 
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 text-center">
+            <div className="stats-grid stats-grid-main">
               <Stat label="PPG" value={player.ppg} size="large" />
               <Stat label="RPG" value={player.rpg} size="large" />
               <Stat label="APG" value={player.apg} size="large" />
-              <Stat label="SPG" value={player.spg} size="large" />
-              <Stat label="BPG" value={player.bpg} size="large" />
-              <Stat label="MPG" value={player.mpg} size="large" />
             </div>
 
-            <hr className="my-8 border-neutral-700/50" />
+            <div className="stats-divider" />
 
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 text-center text-sm">
-              <Stat label="TS%" value={player.ts} pct />
-              <Stat label="USG%" value={player.usage} pct />
-              <Stat label="TOV" value={player.topg} />
-              <Stat label="EFF" value={player.eff} />
+            <div className="stats-grid stats-grid-secondary">
+              <Stat label="MPG" value={player.mpg} />
+              <Stat label="SPG" value={player.spg} />
+              <Stat label="BPG" value={player.bpg} />
+              <Stat label="TO" value={player.topg} />
             </div>
+          </div>
+
+          {/* Shooting Stats */}
+          <div className="stats-card">
+            <h3 className="stats-subtitle">Shooting</h3>
+
+            <div className="stats-grid stats-grid-shooting">
+              <Stat label="FG%" value={player.fgpct} suffix="%" />
+              <Stat label="3P%" value={player.fg3pct} suffix="%" />
+              <Stat label="FT%" value={player.ftpct} suffix="%" />
+            </div>
+
+            <div className="stats-divider" />
+
+            <div className="stats-grid stats-grid-shooting">
+              <Stat label="FGM" value={player.fgm} />
+              <Stat label="FGA" value={player.fga} />
+              <Stat label="3PM" value={player.fg3m} />
+              <Stat label="3PA" value={player.fg3a} />
+              <Stat label="FTM" value={player.ftm} />
+              <Stat label="FTA" value={player.fta} />
+            </div>
+          </div>
+
+          {/* Additional Stats */}
+          <div className="stats-card">
+            <h3 className="stats-subtitle">Advanced Stats</h3>
+
+            <div className="stats-grid stats-grid-advanced">
+              <Stat label="OREB" value={player.oreb} />
+              <Stat label="DREB" value={player.dreb} />
+              <Stat label="PF" value={player.pf} />
+            </div>
+
+            {player.gp && (
+              <>
+                <div className="stats-divider" />
+                <div className="games-played">
+                  <span className="gp-label">Games Played</span>
+                  <span className="gp-value">{player.gp}</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,247 +1,397 @@
-/* src/pages/teamDetail.css */
-
-body {
-  margin: 0;
-}
+/* src/css/teamDetail.css */
 
 .team-detail-page {
-  color: #f5f5f5;
   min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro",
-    sans-serif;
-  width: 100%; /* no 100vw hack here */
+  background: linear-gradient(to bottom, #0f172a, #020617);
 }
-/* ============= HERO ============= */
 
-/* HERO stays full-bleed – this is fine as-is */
+/* ========== HERO SECTION ========== */
 .team-hero {
   position: relative;
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-
-  height: 350px;
+  height: 400px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
 }
 
 .team-hero-img {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  z-index: 0;
 }
 
 .team-hero-overlay {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-
-  /* smoother, more even gradient */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.25),
-    rgba(0, 0, 0, 0.55) 40%,
-    rgba(0, 0, 0, 0.85) 100%
+    rgba(15, 23, 42, 0.3) 0%,
+    rgba(15, 23, 42, 0.8) 70%,
+    rgba(15, 23, 42, 1) 100%
   );
 }
 
 .team-hero-content {
   position: relative;
-  z-index: 3;
+  z-index: 10;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
-  align-items: center;
-  gap: 1.75rem;
-  padding: 1.75rem 3rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.5rem;
 }
 
 .team-logo-wrapper {
-  width: 96px;
-  height: 96px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 2px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .team-logo {
-  max-width: 80%;
-  max-height: 80%;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
 
 .team-hero-text h1 {
-  font-size: 2rem;
-  margin: 0 0 0.25rem;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.02em;
 }
 
 .team-meta {
-  opacity: 0.8;
+  font-size: 1.125rem;
+  color: #94a3b8;
+  margin: 0.5rem 0 0 0;
 }
 
 .team-record {
-  margin-top: 0.5rem;
+  display: inline-block;
+  font-size: 1.25rem;
   font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.5rem 1.25rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
 }
 
-/* ============= MAIN LAYOUT ============= */
-
+/* ========== MAIN CONTENT ========== */
 .team-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 1.4fr);
-  gap: 3rem; /* a bit more breathing room between roster & injuries */
-
-  /* full-width like hero */
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-  box-sizing: border-box;
-
-  padding: 3.5rem 3rem 3rem; /* more space below hero */
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .team-main {
     grid-template-columns: 1fr;
-    padding: 2rem 1.5rem 2.5rem;
   }
 }
 
-/* ============= ROSTER TABLE ============= */
-
+/* ========== ROSTER SECTION ========== */
 .team-roster-section h2 {
-  margin-bottom: 0.75rem;
-  text-align: left;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 1.5rem 0;
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  border-radius: 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
 .roster-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
 .roster-table thead {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.roster-table th,
-.roster-table td {
-  padding: 0.5rem 0.75rem;
-  text-align: left;
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 41, 59, 0.9),
+    rgba(15, 23, 42, 0.9)
+  );
+  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
 }
 
 .roster-table th {
+  padding: 1rem 1rem;
+  text-align: left;
   font-weight: 600;
-  letter-spacing: 0.03em;
-  font-size: 0.8rem;
+  color: #94a3b8;
   text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
-/* zebra + hover */
-.roster-table tbody tr:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.02);
+.roster-table tbody tr {
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  transition: all 0.2s ease;
+}
+
+.roster-table tbody tr:last-child {
+  border-bottom: none;
 }
 
 .roster-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(56, 189, 248, 0.05);
+  border-bottom-color: rgba(56, 189, 248, 0.2);
 }
 
-/* numeric alignment */
-.roster-table .num {
-  font-feature-settings: "tnum";
-  text-align: center;
-  width: 3rem;
+.roster-table td {
+  padding: 1rem 1rem;
+  color: #cbd5e1;
 }
 
-/* center some numeric-ish columns for cleaner look */
-.roster-table td:nth-child(1),
-.roster-table td:nth-child(3),
-.roster-table td:nth-child(4),
-.roster-table td:nth-child(5),
-.roster-table td:nth-child(6) {
-  text-align: center;
+.roster-table td.num {
+  font-weight: 700;
+  color: #38bdf8;
+  font-size: 1rem;
 }
 
-.player-name a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.player-name a:hover {
-  text-decoration: underline;
-}
-
-.roster-table .injury {
-  color: #ffb347;
-}
-
-/* ============= INJURIES SIDEBAR ============= */
-
-.team-injuries-section {
-  margin-top: 1.5rem; /* lines up nicer with roster */
-}
-
-.team-injuries-section h3 {
-  margin-bottom: 0.75rem;
-}
-
-.injury-card {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 0.75rem;
-  padding: 0.75rem 0.9rem;
-  margin-bottom: 0.75rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
-
-.injury-player {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.4rem;
-}
-
-.injury-player a {
-  color: #ffffff;
-  text-decoration: none;
+.roster-table td.player-name {
   font-weight: 600;
 }
 
-.injury-player a:hover {
-  text-decoration: underline;
+.roster-table td.player-name a {
+  color: #f1f5f9;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.injury-pos {
-  opacity: 0.8;
-  font-size: 0.8rem;
+.roster-table td.player-name a:hover {
+  color: #38bdf8;
 }
 
-.injury-body {
-  display: flex;
-  gap: 0.5rem;
+.roster-table td.draft-info {
   font-size: 0.85rem;
-  margin-bottom: 0.25rem;
+  color: #94a3b8;
+  background: none !important;
+  border: none !important;
+  padding: 1rem 1rem;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
-.injury-type {
-  font-weight: 500;
+.roster-table td.draft-info * {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
-.injury-status {
-  color: #ffb347;
+/* Keep position, height, weight, and stats on one line */
+.roster-table td:nth-child(3), /* Position */
+.roster-table td:nth-child(4), /* Height */
+.roster-table td:nth-child(5), /* Weight */
+.roster-table td:nth-child(8), /* PPG */
+.roster-table td:nth-child(9), /* RPG */
+.roster-table td:nth-child(10), /* APG */
+.roster-table th:nth-child(3),
+.roster-table th:nth-child(4),
+.roster-table th:nth-child(5),
+.roster-table th:nth-child(8),
+.roster-table th:nth-child(9),
+.roster-table th:nth-child(10) {
+  white-space: nowrap;
 }
 
-.injury-comment {
-  font-size: 0.8rem;
-  opacity: 0.85;
+/* Stats columns - highlighted */
+.roster-table tbody td:nth-last-child(-n + 3) {
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(56, 189, 248, 0.03);
+}
+
+/* ========== TEAM LEADERS SIDEBAR ========== */
+.team-injuries-section {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+}
+
+.team-injuries-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 1.5rem 0;
+}
+
+.team-leaders {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.leader-card {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(15, 23, 42, 0.9) 100%
+  );
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.leader-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #38bdf8, #0ea5e9);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.leader-card:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  transform: translateX(4px);
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+}
+
+.leader-card:hover::before {
+  opacity: 1;
+}
+
+.leader-stat {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.leader-name {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.leader-name:hover {
+  color: #38bdf8;
+}
+
+.leader-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+/* Add numbered badges to leader cards */
+.leader-card:nth-child(1) .leader-stat::before {
+  content: "1";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e293b;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+}
+
+.leader-card:nth-child(2) .leader-stat::before {
+  content: "2";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+  color: #1e293b;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+}
+
+.leader-card:nth-child(3) .leader-stat::before {
+  content: "3";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+  color: #1e293b;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .team-hero {
+    height: 300px;
+  }
+
+  .team-hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .roster-table {
+    font-size: 0.8rem;
+  }
+
+  .roster-table th,
+  .roster-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .team-injuries-section {
+    position: static;
+  }
 }

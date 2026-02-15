@@ -1,65 +1,35 @@
 // src/pages/TeamDetail.jsx
-import React from "react";
-import { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import teamsData from "../data/teams.json";
+import teamsData from "../Backend/data/teams.json";
+import playersData from "../Backend/data/players.json";
+import { TEAM_COLORS } from "../constants/teamColors";
 import "../css/teamDetail.css";
 
 const teams = teamsData;
 
-export const TEAM_ID_MAP = {
-  ATL: "1610612737",
-  BOS: "1610612738",
-  BKN: "1610612751",
-  CHA: "1610612766",
-  CHI: "1610612741",
-  CLE: "1610612739",
-  DAL: "1610612742",
-  DEN: "1610612743",
-  DET: "1610612765",
-  GSW: "1610612744",
-  HOU: "1610612745",
-  IND: "1610612754",
-  LAC: "1610612746",
-  LAL: "1610612747",
-  MEM: "1610612763",
-  MIA: "1610612748",
-  MIL: "1610612749",
-  MIN: "1610612750",
-  NOP: "1610612740",
-  NYK: "1610612752",
-  OKC: "1610612760",
-  ORL: "1610612753",
-  PHI: "1610612755",
-  PHX: "1610612756",
-  POR: "1610612757",
-  SAC: "1610612758",
-  SAS: "1610612759",
-  TOR: "1610612761",
-  UTA: "1610612762",
-  WAS: "1610612764",
+const getTeamLogoUrl = (teamId) => {
+  if (!teamId) return null;
+  return `https://cdn.nba.com/logos/nba/${teamId}/global/L/logo.svg`;
 };
 
-const getTeamLogoUrl = (alias) => {
-  if (!alias) return null;
-  const teamNumericId = TEAM_ID_MAP[alias];
-  // adjust this pattern to whatever logo scheme you use
-  return `https://cdn.nba.com/logos/nba/${teamNumericId}/global/L/logo.svg`;
-};
-
-function inchesToFeet(inches) {
-  if (!inches) return "-";
-  const feet = Math.floor(inches / 12);
-  const remaining = inches % 12;
-  return `${feet}'${remaining}"`;
+function formatHeight(height) {
+  if (!height) return "-";
+  return height;
 }
 
 export default function TeamDetail() {
-  const { alias } = useParams();
+  const { abbreviation } = useParams();
 
   const team = teams.find(
-    (t) => t.alias.toLowerCase() === (alias || "").toLowerCase()
+    (t) => t.abbreviation.toLowerCase() === (abbreviation || "").toLowerCase(),
   );
+
+  // Get player stats from players.json for this team's roster
+  const roster = useMemo(() => {
+    if (!team) return [];
+    return playersData.filter((p) => p.team_id === team.id);
+  }, [team]);
 
   if (!team) return <div className="team-detail-page">Team not found.</div>;
 
@@ -68,10 +38,8 @@ export default function TeamDetail() {
       ? `${team.wins}-${team.losses}`
       : "N/A";
 
-  const logo = getTeamLogoUrl(alias);
-
-  const injuredPlayers =
-    team.roster.filter((p) => p.injuries && p.injuries.length > 0) || [];
+  const logo = getTeamLogoUrl(team.id);
+  const teamColor = TEAM_COLORS[team.abbreviation] || "#38bdf8";
 
   return (
     <div className="team-detail-page">
@@ -79,10 +47,10 @@ export default function TeamDetail() {
       <div className="team-hero">
         <img
           className="team-hero-img"
-          src={`/images/bg/${team.market.toLowerCase()}1920.jpg`}
+          src={`/images/bg/${team.city.toLowerCase().replace(/ /g, "-")}1920.jpg`}
           srcSet={`
-  /images/bg/${team.market.toLowerCase().replace(/ /g, "-")}1920.jpg 1920w,
-  /images/bg/${team.market.toLowerCase().replace(/ /g, "-")}4k.jpg 3840w
+  /images/bg/${team.city.toLowerCase().replace(/ /g, "-")}1920.jpg 1920w,
+  /images/bg/${team.city.toLowerCase().replace(/ /g, "-")}4k.jpg 3840w
 `}
           sizes="100vw"
           alt=""
@@ -91,61 +59,107 @@ export default function TeamDetail() {
 
         <div className="team-hero-content">
           {logo && (
-            <div className="team-logo-wrapper">
+            <div
+              className="team-logo-wrapper"
+              style={{
+                borderColor: `${teamColor}60`,
+              }}
+            >
               <img className="team-logo" src={logo} alt={`${team.name} logo`} />
             </div>
           )}
 
           <div className="team-hero-text">
-            <h1>
-              {team.market} {team.name}
-            </h1>
+            <h1>{team.full_name}</h1>
             <p className="team-meta">
               {team.conference} · {team.division}
             </p>
-            <p className="team-record">Record: {record}</p>
+            <p
+              className="team-record"
+              style={{
+                backgroundColor: `${teamColor}15`,
+                borderColor: `${teamColor}50`,
+                color: teamColor,
+              }}
+            >
+              Record: {record}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Main layout: left roster / right injuries */}
+      {/* Main layout: left roster / right team leaders */}
       <div className="team-main">
         {/* Roster */}
         <section className="team-roster-section">
           <h2>Roster</h2>
-          <div className="table-wrapper">
+          <div
+            className="table-wrapper"
+            style={{
+              borderColor: `${teamColor}30`,
+            }}
+          >
             <table className="roster-table">
-              <thead>
+              <thead
+                style={{
+                  borderBottomColor: `${teamColor}50`,
+                }}
+              >
                 <tr>
                   <th>#</th>
                   <th>Player</th>
                   <th>Pos</th>
                   <th>Ht</th>
                   <th>Wt</th>
-                  <th>Exp</th>
-                  <th>College</th>
-                  <th>Injury</th>
+                  <th>School</th>
+                  <th>Draft</th>
+                  <th>PPG</th>
+                  <th>RPG</th>
+                  <th>APG</th>
                 </tr>
               </thead>
               <tbody>
-                {team.roster.map((p) => {
-                  const injury = p.injuries && p.injuries[0];
-                  const injuryText = injury
-                    ? `${injury.desc} (${injury.status})`
-                    : "-";
-
+                {roster.map((p) => {
                   return (
                     <tr key={p.id}>
-                      <td className="num">{p.jersey_number}</td>
-                      <td className="player-name">
-                        <Link to={`/players/${p.id}`}>{p.full_name}</Link>
+                      <td className="num" style={{ color: teamColor }}>
+                        {p.jersey_number || "-"}
                       </td>
-                      <td>{p.primary_position || p.position}</td>
-                      <td>{inchesToFeet(p.height)}</td>
+                      <td className="player-name">
+                        <Link
+                          to={`/players/${p.id}`}
+                          onMouseEnter={(e) =>
+                            (e.target.style.color = teamColor)
+                          }
+                          onMouseLeave={(e) =>
+                            (e.target.style.color = "#f1f5f9")
+                          }
+                        >
+                          {p.full_name}
+                        </Link>
+                      </td>
+                      <td>{p.position || "-"}</td>
+                      <td>{formatHeight(p.height)}</td>
                       <td>{p.weight || "-"}</td>
-                      <td>{p.experience}</td>
-                      <td>{p.college || "-"}</td>
-                      <td className={injury ? "injury" : ""}>{injuryText}</td>
+                      <td>{p.school || "-"}</td>
+                      <td className="draft-info">
+                        {p.draft_year ? (
+                          <>
+                            {p.draft_year}
+                            {p.draft_round && p.draft_number && (
+                              <>
+                                {" "}
+                                · R{p.draft_round} #{p.draft_number}
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td>{p.ppg ?? "-"}</td>
+                      <td>{p.rpg ?? "-"}</td>
+                      <td>{p.apg ?? "-"}</td>
                     </tr>
                   );
                 })}
@@ -154,26 +168,122 @@ export default function TeamDetail() {
           </div>
         </section>
 
-        {/* Injuries sidebar */}
+        {/* Team Leaders sidebar */}
         <aside className="team-injuries-section">
-          <h3>Injuries</h3>
-          {injuredPlayers.length === 0 && <p>No reported injuries.</p>}
-          {injuredPlayers.map((p) =>
-            p.injuries.map((inj) => (
-              <div key={inj.id} className="injury-card">
-                <div className="injury-player">
-                  <Link to={`/players/${p.id}`}>{p.full_name}</Link>
-                  <span className="injury-pos">
-                    {p.primary_position || p.position}
-                  </span>
-                </div>
-                <div className="injury-body">
-                  <span className="injury-type">{inj.desc}</span>
-                  <span className="injury-status">{inj.status}</span>
-                </div>
-                <p className="injury-comment">{inj.comment}</p>
-              </div>
-            ))
+          <h3>Team Leaders</h3>
+          {roster.length > 0 && (
+            <div className="team-leaders">
+              {/* PPG Leader */}
+              {(() => {
+                const ppgLeader = [...roster]
+                  .filter((p) => p.ppg != null)
+                  .sort((a, b) => b.ppg - a.ppg)[0];
+
+                return ppgLeader ? (
+                  <div
+                    className="leader-card"
+                    style={{
+                      borderColor: `${teamColor}40`,
+                    }}
+                  >
+                    <div className="leader-stat">Points</div>
+                    <Link
+                      to={`/players/${ppgLeader.id}`}
+                      className="leader-name"
+                      onMouseEnter={(e) => (e.target.style.color = teamColor)}
+                      onMouseLeave={(e) => (e.target.style.color = "#f1f5f9")}
+                    >
+                      {ppgLeader.full_name}
+                    </Link>
+                    <div
+                      className="leader-value"
+                      style={{
+                        background: `linear-gradient(135deg, ${teamColor} 0%, ${teamColor}CC 100%)`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {ppgLeader.ppg} PPG
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+
+              {/* RPG Leader */}
+              {(() => {
+                const rpgLeader = [...roster]
+                  .filter((p) => p.rpg != null)
+                  .sort((a, b) => b.rpg - a.rpg)[0];
+
+                return rpgLeader ? (
+                  <div
+                    className="leader-card"
+                    style={{
+                      borderColor: `${teamColor}40`,
+                    }}
+                  >
+                    <div className="leader-stat">Rebounds</div>
+                    <Link
+                      to={`/players/${rpgLeader.id}`}
+                      className="leader-name"
+                      onMouseEnter={(e) => (e.target.style.color = teamColor)}
+                      onMouseLeave={(e) => (e.target.style.color = "#f1f5f9")}
+                    >
+                      {rpgLeader.full_name}
+                    </Link>
+                    <div
+                      className="leader-value"
+                      style={{
+                        background: `linear-gradient(135deg, ${teamColor} 0%, ${teamColor}CC 100%)`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {rpgLeader.rpg} RPG
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+
+              {/* APG Leader */}
+              {(() => {
+                const apgLeader = [...roster]
+                  .filter((p) => p.apg != null)
+                  .sort((a, b) => b.apg - a.apg)[0];
+
+                return apgLeader ? (
+                  <div
+                    className="leader-card"
+                    style={{
+                      borderColor: `${teamColor}40`,
+                    }}
+                  >
+                    <div className="leader-stat">Assists</div>
+                    <Link
+                      to={`/players/${apgLeader.id}`}
+                      className="leader-name"
+                      onMouseEnter={(e) => (e.target.style.color = teamColor)}
+                      onMouseLeave={(e) => (e.target.style.color = "#f1f5f9")}
+                    >
+                      {apgLeader.full_name}
+                    </Link>
+                    <div
+                      className="leader-value"
+                      style={{
+                        background: `linear-gradient(135deg, ${teamColor} 0%, ${teamColor}CC 100%)`,
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {apgLeader.apg} APG
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+            </div>
           )}
         </aside>
       </div>

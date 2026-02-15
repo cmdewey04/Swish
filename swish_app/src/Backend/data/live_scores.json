@@ -1,0 +1,80 @@
+{
+  "last_updated": "2026-02-13T11:09:33.797258",
+  "games": [
+    {
+      "game_id": "0032500004",
+      "game_status": 1,
+      "game_status_text": "9:00 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610616862,
+        "team_name": "Team Melo",
+        "team_city": "",
+        "team_tricode": "MEL",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      },
+      "away_team": {
+        "team_id": 1610616865,
+        "team_name": "Team Austin",
+        "team_city": "",
+        "team_tricode": "AUS",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      }
+    },
+    {
+      "game_id": "0032500005",
+      "game_status": 1,
+      "game_status_text": "9:55 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610616864,
+        "team_name": "Team T-Mac",
+        "team_city": "",
+        "team_tricode": "TMC",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      },
+      "away_team": {
+        "team_id": 1610616863,
+        "team_name": "Team Vince",
+        "team_city": "",
+        "team_tricode": "VIN",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      }
+    },
+    {
+      "game_id": "0032500006",
+      "game_status": 1,
+      "game_status_text": "10:35 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 0,
+        "team_name": "",
+        "team_city": "",
+        "team_tricode": "",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      },
+      "away_team": {
+        "team_id": 0,
+        "team_name": "",
+        "team_city": "",
+        "team_tricode": "",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      }
+    }
+  ]
+}

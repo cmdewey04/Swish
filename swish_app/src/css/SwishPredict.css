@@ -1,0 +1,432 @@
+/* src/css/SwishPredict.css */
+
+/* ─── Predict Section ─── */
+.predict-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ─── Loading ─── */
+.predict-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.predict-loading-pulse {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #38bdf8;
+  animation: predict-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes predict-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ─── Unavailable ─── */
+.predict-unavailable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: #475569;
+  text-align: center;
+}
+
+.predict-unavailable p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.predict-unavailable-sub {
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+/* ─── Main Card ─── */
+.predict-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.predict-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.predict-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.predict-icon {
+  color: #38bdf8;
+}
+
+.predict-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.predict-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Donut Visual ─── */
+.predict-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.predict-donut-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+}
+
+.predict-donut-svg {
+  display: block;
+}
+
+.predict-arc {
+  transition:
+    stroke-dasharray 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.predict-donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.predict-center-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.predict-center-divider {
+  width: 1px;
+  height: 32px;
+  background: #334155;
+}
+
+/* ─── Percentage Display ─── */
+.predict-team-pct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 70px;
+}
+
+.predict-team-pct-left {
+  align-items: flex-end;
+}
+
+.predict-team-pct-right {
+  align-items: flex-start;
+}
+
+.predict-pct-value {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.predict-pct-favored {
+  opacity: 1;
+  text-shadow: 0 0 24px currentColor;
+}
+
+.predict-pct-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.predict-pct-abbr {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.predict-pct-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.predict-source {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #475569;
+  margin: 0 0 20px;
+  font-weight: 500;
+}
+
+/* ─── Factors ─── */
+.predict-factors {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid #1e293b;
+  padding-top: 16px;
+}
+
+.predict-factor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+.predict-factor:not(:last-child) {
+  border-right: 1px solid #1e293b;
+}
+
+.predict-factor-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.predict-factor-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+/* ─── Injury Report Card ─── */
+.predict-injuries-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.predict-injuries-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0 0 20px;
+}
+
+.predict-injuries-title svg {
+  color: #ef4444;
+}
+
+.predict-injury-team {
+  margin-bottom: 16px;
+}
+
+.predict-injury-team:last-of-type {
+  margin-bottom: 12px;
+}
+
+.predict-injury-team-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 2px solid;
+}
+
+.predict-injury-team-header span:first-child {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.predict-injury-score {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.predict-injury-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.predict-injury-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #0b1120;
+}
+
+.predict-injury-name {
+  flex: 1;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.predict-injury-status {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.predict-status-out {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.predict-status-doubtful {
+  background: rgba(249, 115, 22, 0.12);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.predict-status-questionable {
+  background: rgba(234, 179, 8, 0.12);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.25);
+}
+
+.predict-status-gtd {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.predict-status-daytoday {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.predict-status-probable {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.predict-injury-importance {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #475569;
+  min-width: 42px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.predict-injury-footnote {
+  font-size: 0.65rem;
+  color: #334155;
+  margin: 8px 0 0;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 600px) {
+  .predict-visual {
+    gap: 12px;
+  }
+
+  .predict-donut-container {
+    width: 160px;
+    height: 160px;
+  }
+
+  .predict-donut-svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  .predict-center-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .predict-pct-value {
+    font-size: 1.4rem;
+  }
+
+  .predict-team-pct {
+    min-width: 55px;
+  }
+
+  .predict-factors {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .predict-factor {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 4px 0;
+  }
+
+  .predict-factor:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 8px;
+  }
+}

@@ -1,3 +1,173 @@
+/* src/css/Player.css */
+
+.player-card-explore {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.6) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.player-card-explore:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+/* Favorite Button */
+.player-favorite-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.player-favorite-btn:hover {
+  transform: scale(1.15);
+  background: rgba(30, 41, 59, 0.98);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.player-favorite-btn.favorited {
+  background: rgba(239, 68, 68, 0.25);
+  transform: scale(1.1);
+}
+
+.player-favorite-btn.favorited:hover {
+  background: rgba(239, 68, 68, 0.35);
+  transform: scale(1.2);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Player Card Header (Headshot area) */
+.player-card-header {
+  position: relative;
+  height: 180px;
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 41, 59, 0.4),
+    rgba(15, 23, 42, 0.8)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.player-headshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.player-headshot-placeholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #475569;
+  background: rgba(30, 41, 59, 0.8);
+}
+
+/* Player Card Body */
+.player-card-body {
+  padding: 1.25rem;
+}
+
+.player-name-explore {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 0.5rem 0;
+}
+
+.player-team-explore {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0 0 0.75rem 0;
+}
+
+.player-position-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-bottom: 1rem;
+}
+
+.player-stats-row {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.stat-item-explore {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stat-label-explore {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.stat-value-explore {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+/* Add to src/css/Player.css */
+
+.player-favorite-btn svg {
+  color: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.player-favorite-btn.favorited svg {
+  color: #ef4444;
+}
+
+.player-favorite-btn:hover svg {
+  transform: scale(1.15);
+}
+
+/* Old player card styles (keeping for backwards compatibility) */
 .player-card {
   display: inline-block;
   justify-content: center;

@@ -11,6 +11,9 @@ import Teams from "./pages/Teams";
 import TeamDetail from "./components/TeamDetail";
 import ScrollToTop from "./components/ScrollToTop";
 import PlayerDetail from "./components/PlayerDetail";
+import GameDetail from "./pages/GameDetail";
+import Welcome from "./pages/Welcome";
+import Tankathon from "./pages/Tank";
 
 function App() {
   return (
@@ -18,16 +21,20 @@ function App() {
       <ThemeProvider>
         <ScrollToTop />
         <NavBar />
-        <div className="max-w-7xl mx-auto pt-5 px-6">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/teams/:alias" element={<TeamDetail />} />
-            <Route path="/players/:id" element={<PlayerDetail />} />
-          </Routes>
-        </div>
+        <Routes>
+          {/* Full-width routes */}
+          <Route path="/teams/:abbreviation" element={<TeamDetail />} />
+          <Route path="/players/:id" element={<PlayerDetail />} />
+          <Route path="/game/:gameId" element={<GameDetail />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/tankathon" element={<Tankathon />} />
+
+          {/* Constrained routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/teams" element={<Teams />} />
+        </Routes>
       </ThemeProvider>
     </div>
   );

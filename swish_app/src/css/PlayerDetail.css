@@ -1,5 +1,365 @@
+/* src/css/PlayerDetail.css */
+
 .player-detail-page {
   min-height: 100vh;
+  background: linear-gradient(to bottom, #0f172a, #020617);
+}
+
+/* ========== HERO SECTION ========== */
+.player-hero {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(15, 23, 42, 0.9) 100%
+  );
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 3rem 2rem;
+}
+
+.player-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #38bdf8;
+}
+
+.player-header {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+/* Player Image */
+.player-image-wrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.player-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 3px solid rgba(56, 189, 248, 0.3);
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.player-image-placeholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 3px solid rgba(56, 189, 248, 0.3);
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+/* Player Info */
+.player-info {
+  flex: 1;
+}
+
+.player-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.player-title h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #f1f5f9;
   margin: 0;
-  padding: 0;
+  letter-spacing: -0.02em;
+}
+
+.jersey-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 0 0.75rem;
+}
+
+.player-team-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.team-logo-small {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.team-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.position-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* Quick Stats */
+.player-quick-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quick-stat {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quick-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.quick-stat-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+/* Draft Info */
+.draft-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+}
+
+.draft-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.draft-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+/* ========== STATS SECTION ========== */
+.player-stats-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.stats-container {
+  display: grid;
+  gap: 2rem;
+}
+
+.stats-card {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.stats-card-primary {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(15, 23, 42, 0.9) 100%
+  );
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.stats-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 2rem 0;
+}
+
+.stats-subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Stats Grids */
+.stats-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.stats-grid-main {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.stats-grid-secondary {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.stats-grid-shooting {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.stats-grid-advanced {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stats-divider {
+  height: 1px;
+  background: rgba(51, 65, 85, 0.5);
+  margin: 1.5rem 0;
+}
+
+/* Individual Stat */
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  order: 2;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  order: 1;
+}
+
+.stat-value-large {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Games Played */
+.games-played {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(56, 189, 248, 0.05);
+  border-radius: 12px;
+}
+
+.gp-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.gp-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+/* Not Found */
+.player-not-found {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #cbd5e1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .player-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .player-image-wrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .player-title {
+    flex-direction: column;
+  }
+
+  .player-title h1 {
+    font-size: 2rem;
+  }
+
+  .player-team-info {
+    justify-content: center;
+  }
+
+  .stats-grid-main,
+  .stats-grid-secondary,
+  .stats-grid-shooting,
+  .stats-grid-advanced {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value-large {
+    font-size: 2rem;
+  }
 }

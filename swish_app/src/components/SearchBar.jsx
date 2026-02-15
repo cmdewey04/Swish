@@ -1,7 +1,7 @@
 // src/components/SearchBar.jsx
 import React, { useState, useEffect } from "react";
 import Player from "./Player";
-import PLAYERS from "../data/players.json";
+import PLAYERS from "../Backend/data/players.json";
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");

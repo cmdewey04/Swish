@@ -1,0 +1,330 @@
+/* src/css/Tankathon.css */
+
+/* ============================================================
+   BASE LAYOUT
+   ============================================================ */
+
+.tankathon-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0f172a, #020617);
+  padding-bottom: 4rem;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.tankathon-header {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 146, 60, 0.15) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  border-bottom: 1px solid rgba(251, 146, 60, 0.2);
+  padding: 3rem 2rem;
+}
+
+.tankathon-header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tankathon-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tankathon-title svg {
+  color: #fb923c;
+}
+
+.tankathon-subtitle {
+  font-size: 1.125rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+
+.tankathon-controls {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.sim-lottery-btn,
+.reset-lottery-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sim-lottery-btn {
+  background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(251, 146, 60, 0.4);
+}
+
+.sim-lottery-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(251, 146, 60, 0.5);
+}
+
+.sim-lottery-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.reset-lottery-btn {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.reset-lottery-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+.tankathon-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ============================================================
+   STANDINGS TABLE
+   ============================================================ */
+
+.standings-table-container {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8),
+    rgba(15, 23, 42, 0.9)
+  );
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.standings-table thead {
+  background: rgba(15, 23, 42, 0.8);
+  border-bottom: 2px solid rgba(251, 146, 60, 0.3);
+}
+
+.standings-table th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.standings-table tbody tr {
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  transition: all 0.3s ease;
+}
+
+.standings-table tbody tr:hover {
+  background: rgba(251, 146, 60, 0.05);
+}
+
+.standings-table td {
+  padding: 1rem;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+
+/* Pick styling */
+.pick-number {
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+
+.pick-badge {
+  display: inline-block;
+  min-width: 2rem;
+  text-align: center;
+  color: #f1f5f9;
+}
+
+.pick-one {
+  background: linear-gradient(
+    90deg,
+    rgba(251, 146, 60, 0.2) 0%,
+    transparent 100%
+  );
+  border-left: 3px solid #fb923c;
+}
+
+.lottery-pick {
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.jumper {
+  background: rgba(34, 197, 94, 0.1);
+  animation: highlight 0.5s ease;
+}
+
+.faller {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@keyframes highlight {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Team cell */
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.team-logo-small {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.team-name-table {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.jump-indicator,
+.fall-indicator {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.jump-indicator {
+  color: #22c55e;
+}
+
+.fall-indicator {
+  color: #ef4444;
+}
+
+/* Odds highlighting */
+.highlight-odds {
+  font-weight: 700;
+  color: #fb923c;
+}
+
+/* ============================================================
+   LOTTERY INFO
+   ============================================================ */
+
+.lottery-info {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8),
+    rgba(15, 23, 42, 0.9)
+  );
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.lottery-info h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 1rem 0;
+}
+
+.lottery-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lottery-info li {
+  padding: 0.75rem 0;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+.lottery-info li:last-child {
+  border-bottom: none;
+}
+
+.lottery-info li::before {
+  content: "→";
+  color: #fb923c;
+  font-weight: 800;
+  margin-right: 0.75rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .tankathon-title {
+    font-size: 1.75rem;
+  }
+
+  .standings-table {
+    font-size: 0.75rem;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 0.5rem;
+  }
+
+  .team-logo-small {
+    width: 24px;
+    height: 24px;
+  }
+}

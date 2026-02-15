@@ -2,9 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/LiveScores.css";
-
-const NBA_SCOREBOARD_URL =
-  "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
+import { API_BASE } from "../lib/api";
 
 const LiveScores = () => {
   const [games, setGames] = useState([]);
@@ -40,26 +38,24 @@ const LiveScores = () => {
 
   const fetchLiveScores = async () => {
     try {
-      // Fetch directly from NBA CDN
-      const response = await fetch(NBA_SCOREBOARD_URL);
-      if (!response.ok) throw new Error("NBA API failed");
+      const response = await fetch(`${API_BASE}/api/scores`);
+      if (!response.ok) throw new Error("Scores API failed");
 
-      const data = await response.json();
-      const nbaGames = data.scoreboard?.games || [];
+      const json = await response.json();
+      const nbaGames = json.data?.games || [];
       const transformed = nbaGames.map(transformNbaGame);
 
       setGames(transformed);
       setLastUpdated(new Date().toISOString());
       setLoading(false);
 
-      console.log("📊 Loaded games from NBA CDN:", transformed.length);
+      console.log("📊 Loaded games:", transformed.length);
     } catch (error) {
       console.warn(
-        "⚠️ NBA CDN failed, falling back to static file:",
+        "⚠️ API failed, falling back to static file:",
         error.message,
       );
 
-      // Fallback to static file
       try {
         const timestamp = new Date().getTime();
         const response = await fetch(`/data/live_scores.json?t=${timestamp}`);

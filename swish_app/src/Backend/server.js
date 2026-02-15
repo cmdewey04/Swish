@@ -202,11 +202,14 @@ app.get("/api/highlights", async (req, res) => {
   }
 });
 
-// Other endpoints (refresh-scores, refresh-teams)
-app.post("/api/refresh-scores", async (req, res) => {
+// Proxy for NBA live scores (avoids CORS on client)
+app.get("/api/scores", async (req, res) => {
   try {
-    const output = await runPython("fetch_live_data.py");
-    res.json({ success: true, message: "Scores updated", output });
+    const response = await fetch(
+      "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json",
+    );
+    const data = await response.json();
+    res.json({ success: true, data: data.scoreboard });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

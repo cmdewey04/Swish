@@ -47,12 +47,7 @@ export default function TeamDetail() {
       <div className="team-hero">
         <img
           className="team-hero-img"
-          src={`/images/bg/${team.city.toLowerCase().replace(/ /g, "-")}1920.jpg`}
-          srcSet={`
-  /images/bg/${team.city.toLowerCase().replace(/ /g, "-")}1920.jpg 1920w,
-  /images/bg/${team.city.toLowerCase().replace(/ /g, "-")}4k.jpg 3840w
-`}
-          sizes="100vw"
+          src={`/images/bg/${team.city.toLowerCase().replace(/ /g, "-")}4k.jpg`}
           alt=""
         />
         <div className="team-hero-overlay" />

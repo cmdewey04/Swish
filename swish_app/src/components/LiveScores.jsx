@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/LiveScores.css";
+import { API_BASE } from "../lib/api";
 
 const LiveScores = () => {
   const [games, setGames] = useState([]);
@@ -41,12 +42,9 @@ const LiveScores = () => {
 
     try {
       console.log("🔄 Calling backend to refresh scores...");
-      const refreshResponse = await fetch(
-        "http://localhost:3001/api/refresh-scores",
-        {
-          method: "POST",
-        },
-      );
+      const refreshResponse = await fetch(`${API_BASE}/api/refresh-scores`, {
+        method: "POST",
+      });
 
       if (!refreshResponse.ok) {
         throw new Error("Failed to refresh scores");

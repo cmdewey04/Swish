@@ -5,6 +5,7 @@ import { TEAM_COLORS } from "../constants/teamColors";
 import SwishPredict from "../components/SwishPredict";
 import teamsData from "../Backend/data/teams.json";
 import "../css/GameDetail.css";
+import { API_BASE } from "../lib/api";
 
 const getTeamLogo = (teamId) =>
   `https://cdn.nba.com/logos/nba/${teamId}/global/L/logo.svg`;
@@ -78,7 +79,7 @@ export default function GameDetail() {
     setLoading(true);
     setError(null);
 
-    fetch(`http://localhost:3001/api/boxscore/${gameId}`)
+    fetch(`${API_BASE}/api/boxscore/${gameId}`)
       .then((res) => res.json())
       .then((json) => {
         const gameData = json.data?.data || json.data;
@@ -116,7 +117,7 @@ export default function GameDetail() {
     const gameDate =
       summary.GAME_DATE_EST || new Date().toISOString().split("T")[0];
     fetch(
-      `http://localhost:3001/api/highlights?q=${encodeURIComponent(query)}&date=${gameDate}`,
+      `${API_BASE}/api/highlights?q=${encodeURIComponent(query)}&date=${gameDate}`,
     )
       .then((res) => res.json())
       .then((json) => {

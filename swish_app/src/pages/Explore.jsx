@@ -8,6 +8,7 @@ import {
   ReloadIcon,
 } from "@radix-ui/react-icons";
 import "../css/Explore.css";
+import { API_BASE } from "../lib/api";
 
 const Explore = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -86,12 +87,9 @@ const Explore = () => {
 
     try {
       console.log("🔄 Refreshing teams data...");
-      const refreshResponse = await fetch(
-        "http://localhost:3001/api/refresh-teams",
-        {
-          method: "POST",
-        },
-      );
+      const refreshResponse = await fetch(`${API_BASE}/api/refresh-teams`, {
+        method: "POST",
+      });
 
       if (!refreshResponse.ok) {
         throw new Error("Failed to refresh teams");

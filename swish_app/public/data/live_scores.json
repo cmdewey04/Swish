@@ -1,60 +1,85 @@
 {
-  "last_updated": "2026-02-13T11:09:33.797258",
+  "last_updated": "2026-02-15T13:30:54.023927",
   "games": [
     {
-      "game_id": "0032500004",
+      "game_id": "0032500011",
       "game_status": 1,
-      "game_status_text": "9:00 pm ET",
+      "game_status_text": "5:00 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 1610616862,
-        "team_name": "Team Melo",
+        "team_id": 1610616859,
+        "team_name": "Stars",
         "team_city": "",
-        "team_tricode": "MEL",
+        "team_tricode": "STR",
         "score": 0,
         "wins": 0,
         "losses": 0
       },
       "away_team": {
-        "team_id": 1610616865,
-        "team_name": "Team Austin",
+        "team_id": 1610616861,
+        "team_name": "World",
         "team_city": "",
-        "team_tricode": "AUS",
+        "team_tricode": "WLD",
         "score": 0,
         "wins": 0,
         "losses": 0
       }
     },
     {
-      "game_id": "0032500005",
+      "game_id": "0032500021",
       "game_status": 1,
-      "game_status_text": "9:55 pm ET",
+      "game_status_text": "5:55 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 1610616864,
-        "team_name": "Team T-Mac",
+        "team_id": 1610616860,
+        "team_name": "Stripes",
         "team_city": "",
-        "team_tricode": "TMC",
+        "team_tricode": "STP",
         "score": 0,
         "wins": 0,
         "losses": 0
       },
       "away_team": {
-        "team_id": 1610616863,
-        "team_name": "Team Vince",
+        "team_id": 0,
+        "team_name": "",
         "team_city": "",
-        "team_tricode": "VIN",
+        "team_tricode": "",
         "score": 0,
         "wins": 0,
         "losses": 0
       }
     },
     {
-      "game_id": "0032500006",
+      "game_id": "0032500031",
       "game_status": 1,
-      "game_status_text": "10:35 pm ET",
+      "game_status_text": "6:25 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610616860,
+        "team_name": "Stripes",
+        "team_city": "",
+        "team_tricode": "STP",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      },
+      "away_team": {
+        "team_id": 0,
+        "team_name": "",
+        "team_city": "",
+        "team_tricode": "",
+        "score": 0,
+        "wins": 0,
+        "losses": 0
+      }
+    },
+    {
+      "game_id": "0032500041",
+      "game_status": 1,
+      "game_status_text": "7:10 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {

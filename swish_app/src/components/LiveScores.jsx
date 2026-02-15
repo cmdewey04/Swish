@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/LiveScores.css";
-import { API_BASE } from "../lib/api";
+
+const NBA_SCOREBOARD_URL =
+  "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
 
 const LiveScores = () => {
   const [games, setGames] = useState([]);
@@ -10,27 +12,67 @@ const LiveScores = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  const transformNbaGame = (game) => ({
+    game_id: game.gameId,
+    game_status: game.gameStatus,
+    game_status_text: game.gameStatusText,
+    period: game.period,
+    game_clock: game.gameClock,
+    home_team: {
+      team_id: game.homeTeam.teamId,
+      team_name: game.homeTeam.teamName,
+      team_city: game.homeTeam.teamCity,
+      team_tricode: game.homeTeam.teamTricode,
+      score: game.homeTeam.score,
+      wins: game.homeTeam.wins,
+      losses: game.homeTeam.losses,
+    },
+    away_team: {
+      team_id: game.awayTeam.teamId,
+      team_name: game.awayTeam.teamName,
+      team_city: game.awayTeam.teamCity,
+      team_tricode: game.awayTeam.teamTricode,
+      score: game.awayTeam.score,
+      wins: game.awayTeam.wins,
+      losses: game.awayTeam.losses,
+    },
+  });
+
   const fetchLiveScores = async () => {
     try {
-      const timestamp = new Date().getTime();
-      const response = await fetch(`/data/live_scores.json?t=${timestamp}`);
-      if (!response.ok) {
-        throw new Error("Failed to load scores");
-      }
+      // Fetch directly from NBA CDN
+      const response = await fetch(NBA_SCOREBOARD_URL);
+      if (!response.ok) throw new Error("NBA API failed");
 
       const data = await response.json();
-      setGames(data.games || []);
-      setLastUpdated(data.last_updated);
+      const nbaGames = data.scoreboard?.games || [];
+      const transformed = nbaGames.map(transformNbaGame);
+
+      setGames(transformed);
+      setLastUpdated(new Date().toISOString());
       setLoading(false);
 
-      console.log("📊 Loaded games:", data.games?.length || 0);
-      console.log(
-        "🕐 Last updated:",
-        new Date(data.last_updated).toLocaleTimeString(),
-      );
+      console.log("📊 Loaded games from NBA CDN:", transformed.length);
     } catch (error) {
-      console.error("Error loading live scores:", error);
-      setGames([]);
+      console.warn(
+        "⚠️ NBA CDN failed, falling back to static file:",
+        error.message,
+      );
+
+      // Fallback to static file
+      try {
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/data/live_scores.json?t=${timestamp}`);
+        if (!response.ok) throw new Error("Static file also failed");
+
+        const data = await response.json();
+        setGames(data.games || []);
+        setLastUpdated(data.last_updated);
+      } catch (fallbackError) {
+        console.error("❌ Both sources failed:", fallbackError);
+        setGames([]);
+      }
+
       setLoading(false);
     }
   };
@@ -40,35 +82,20 @@ const LiveScores = () => {
     e.stopPropagation();
     setRefreshing(true);
 
-    try {
-      console.log("🔄 Calling backend to refresh scores...");
-      const refreshResponse = await fetch(`${API_BASE}/api/refresh-scores`, {
-        method: "POST",
-      });
-
-      if (!refreshResponse.ok) {
-        throw new Error("Failed to refresh scores");
-      }
-
-      console.log("✅ Backend finished, fetching updated data...");
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      await fetchLiveScores();
-
-      console.log("✅ Refresh complete!");
-    } catch (error) {
-      console.error("❌ Error refreshing scores:", error);
-      alert(
-        "Failed to refresh scores. Make sure the backend server is running on port 3001.",
-      );
-    }
+    await fetchLiveScores();
 
     setTimeout(() => setRefreshing(false), 500);
   };
 
   useEffect(() => {
     fetchLiveScores();
+
+    // Auto-refresh every 30 seconds for live games
+    const interval = setInterval(() => {
+      fetchLiveScores();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const formatGameClock = (clock, period) => {
@@ -86,7 +113,7 @@ const LiveScores = () => {
   const getGameStatusBadge = (status, statusText, clock, period) => {
     if (status === 1)
       return {
-        text: "Scheduled",
+        text: statusText || "Scheduled",
         className: "status-scheduled",
         showClock: false,
       };

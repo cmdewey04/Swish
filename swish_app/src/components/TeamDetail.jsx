@@ -1,9 +1,9 @@
 // src/pages/TeamDetail.jsx
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import teamsData from "../Backend/data/teams.json";
-import playersData from "../Backend/data/players.json";
 import { TEAM_COLORS } from "../constants/teamColors";
+import { API_BASE } from "../lib/api";
 import "../css/teamDetail.css";
 
 const teams = teamsData;
@@ -20,16 +20,23 @@ function formatHeight(height) {
 
 export default function TeamDetail() {
   const { abbreviation } = useParams();
+  const [allPlayers, setAllPlayers] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/players`)
+      .then((res) => res.json())
+      .then((data) => setAllPlayers(data))
+      .catch((err) => console.error("Failed to load players:", err));
+  }, []);
 
   const team = teams.find(
     (t) => t.abbreviation.toLowerCase() === (abbreviation || "").toLowerCase(),
   );
 
-  // Get player stats from players.json for this team's roster
   const roster = useMemo(() => {
     if (!team) return [];
-    return playersData.filter((p) => p.team_id === team.id);
-  }, [team]);
+    return allPlayers.filter((p) => p.team_id === team.id);
+  }, [team, allPlayers]);
 
   if (!team) return <div className="team-detail-page">Team not found.</div>;
 
@@ -152,9 +159,17 @@ export default function TeamDetail() {
                           "—"
                         )}
                       </td>
-                      <td>{p.ppg ?? "-"}</td>
-                      <td>{p.rpg ?? "-"}</td>
-                      <td>{p.apg ?? "-"}</td>
+                      {p.active === false ? (
+                        <td colSpan={3}>
+                          <span className="roster-inactive-label">Inactive / Injured</span>
+                        </td>
+                      ) : (
+                        <>
+                          <td>{p.ppg ?? "-"}</td>
+                          <td>{p.rpg ?? "-"}</td>
+                          <td>{p.apg ?? "-"}</td>
+                        </>
+                      )}
                     </tr>
                   );
                 })}
@@ -171,7 +186,7 @@ export default function TeamDetail() {
               {/* PPG Leader */}
               {(() => {
                 const ppgLeader = [...roster]
-                  .filter((p) => p.ppg != null)
+                  .filter((p) => p.ppg != null && p.active !== false)
                   .sort((a, b) => b.ppg - a.ppg)[0];
 
                 return ppgLeader ? (
@@ -208,7 +223,7 @@ export default function TeamDetail() {
               {/* RPG Leader */}
               {(() => {
                 const rpgLeader = [...roster]
-                  .filter((p) => p.rpg != null)
+                  .filter((p) => p.rpg != null && p.active !== false)
                   .sort((a, b) => b.rpg - a.rpg)[0];
 
                 return rpgLeader ? (
@@ -245,7 +260,7 @@ export default function TeamDetail() {
               {/* APG Leader */}
               {(() => {
                 const apgLeader = [...roster]
-                  .filter((p) => p.apg != null)
+                  .filter((p) => p.apg != null && p.active !== false)
                   .sort((a, b) => b.apg - a.apg)[0];
 
                 return apgLeader ? (

@@ -233,6 +233,19 @@
   background: rgba(56, 189, 248, 0.03);
 }
 
+.roster-inactive-label {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* ========== TEAM LEADERS SIDEBAR ========== */
 .team-injuries-section {
   position: sticky;

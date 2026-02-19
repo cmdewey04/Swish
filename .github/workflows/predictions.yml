@@ -1,0 +1,37 @@
+name: Generate NBA Predictions
+
+on:
+  schedule:
+    # 10:00 AM CST = 16:00 UTC
+    - cron: '0 16 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  generate-predictions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: swish_app/src/Backend/predictions/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r swish_app/src/Backend/predictions/requirements.txt
+
+      - name: Run prediction generator
+        run: python swish_app/src/Backend/predictions/generate.py
+
+      - name: Commit predictions.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add swish_app/src/Backend/data/predictions.json
+          git diff --staged --quiet || git commit -m "Update predictions for $(date -u +%Y-%m-%d)"
+          git push

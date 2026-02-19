@@ -1,24 +1,26 @@
 // src/pages/Explore.jsx
 import React, { useState, useEffect } from "react";
 import Player from "../components/Player";
-import PLAYERS from "../Backend/data/players.json";
-import {
-  MagnifyingGlassIcon,
-  Cross2Icon,
-  ReloadIcon,
-} from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon, Cross2Icon } from "@radix-ui/react-icons";
 import "../css/Explore.css";
 import { API_BASE } from "../lib/api";
 
 const Explore = () => {
+  const [players, setPlayers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState("ALL");
   const [selectedTeam, setSelectedTeam] = useState("ALL");
   const [isSearching, setIsSearching] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
 
-  const teams = [...new Set(PLAYERS.map((p) => p.team_name))].sort();
+  useEffect(() => {
+    fetch(`${API_BASE}/api/players`)
+      .then((res) => res.json())
+      .then((data) => setPlayers(data))
+      .catch((err) => console.error("Failed to load players:", err));
+  }, []);
+
+  const teams = [...new Set(players.map((p) => p.team_name))].sort();
 
   const matchesPosition = (playerPosition, filterPosition) => {
     if (!playerPosition) return false;
@@ -48,7 +50,7 @@ const Explore = () => {
     setIsSearching(true);
 
     const timeout = setTimeout(() => {
-      let filtered = PLAYERS;
+      let filtered = players;
 
       if (q) {
         filtered = filtered.filter((p) => {
@@ -73,39 +75,13 @@ const Explore = () => {
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [searchQuery, selectedPosition, selectedTeam]);
+  }, [searchQuery, selectedPosition, selectedTeam, players]);
 
   const handleReset = () => {
     setSearchQuery("");
     setSelectedPosition("ALL");
     setSelectedTeam("ALL");
     setResults([]);
-  };
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-
-    try {
-      console.log("🔄 Refreshing teams data...");
-      const refreshResponse = await fetch(`${API_BASE}/api/refresh-teams`, {
-        method: "POST",
-      });
-
-      if (!refreshResponse.ok) {
-        throw new Error("Failed to refresh teams");
-      }
-
-      const data = await refreshResponse.json();
-      console.log("✅ Teams refresh complete:", data);
-      alert("Teams data refreshed! Please reload the page to see updates.");
-    } catch (error) {
-      console.error("❌ Error refreshing teams:", error);
-      alert(
-        "Failed to refresh teams. Make sure the backend server is running on port 3001.",
-      );
-    }
-
-    setTimeout(() => setRefreshing(false), 1000);
   };
 
   return (
@@ -117,29 +93,6 @@ const Explore = () => {
           <p className="explore-subtitle">
             Search and filter through all NBA players
           </p>
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="refresh-btn"
-            style={{
-              padding: "0.625rem 1.25rem",
-              background: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%)",
-              border: "none",
-              borderRadius: "10px",
-              color: "#fff",
-              fontSize: "0.875rem",
-              fontWeight: 600,
-              cursor: refreshing ? "not-allowed" : "pointer",
-              opacity: refreshing ? 0.6 : 1,
-              marginTop: "1rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <ReloadIcon width={16} height={16} />
-            {refreshing ? "Refreshing..." : "Refresh Teams Data"}
-          </button>
         </div>
       </div>
 

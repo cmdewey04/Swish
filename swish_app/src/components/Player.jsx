@@ -97,20 +97,24 @@ function Player({ player }) {
         <p className="player-team-explore">{player.team_name}</p>
         <div className="player-position-badge">{player.position}</div>
 
-        <div className="player-stats-row">
-          <div className="stat-item-explore">
-            <span className="stat-label-explore">PPG</span>
-            <span className="stat-value-explore">{player.ppg ?? "-"}</span>
+        {player.active === false ? (
+          <div className="player-inactive-label">Inactive / Injured</div>
+        ) : (
+          <div className="player-stats-row">
+            <div className="stat-item-explore">
+              <span className="stat-label-explore">PPG</span>
+              <span className="stat-value-explore">{player.ppg ?? "-"}</span>
+            </div>
+            <div className="stat-item-explore">
+              <span className="stat-label-explore">RPG</span>
+              <span className="stat-value-explore">{player.rpg ?? "-"}</span>
+            </div>
+            <div className="stat-item-explore">
+              <span className="stat-label-explore">APG</span>
+              <span className="stat-value-explore">{player.apg ?? "-"}</span>
+            </div>
           </div>
-          <div className="stat-item-explore">
-            <span className="stat-label-explore">RPG</span>
-            <span className="stat-value-explore">{player.rpg ?? "-"}</span>
-          </div>
-          <div className="stat-item-explore">
-            <span className="stat-label-explore">APG</span>
-            <span className="stat-value-explore">{player.apg ?? "-"}</span>
-          </div>
-        </div>
+        )}
       </div>
     </Link>
   );

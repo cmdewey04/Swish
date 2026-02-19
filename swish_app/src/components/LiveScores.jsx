@@ -8,7 +8,6 @@ const LiveScores = () => {
   const [games, setGames] = useState([]);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
   const transformNbaGame = (game) => ({
     game_id: game.gameId,
@@ -73,16 +72,6 @@ const LiveScores = () => {
     }
   };
 
-  const handleRefresh = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setRefreshing(true);
-
-    await fetchLiveScores();
-
-    setTimeout(() => setRefreshing(false), 500);
-  };
-
   useEffect(() => {
     fetchLiveScores();
 
@@ -145,13 +134,6 @@ const LiveScores = () => {
       <div className="live-scores-section">
         <div className="live-scores-header">
           <h2>Today's Games</h2>
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="refresh-btn"
-          >
-            {refreshing ? "🔄 Refreshing..." : "🔄 Refresh"}
-          </button>
         </div>
         <div className="no-games">
           <p>No games scheduled today</p>
@@ -171,13 +153,6 @@ const LiveScores = () => {
             </span>
           )}
         </div>
-        <button
-          onClick={handleRefresh}
-          disabled={refreshing}
-          className="refresh-btn"
-        >
-          {refreshing ? "🔄 Refreshing..." : "🔄 Refresh"}
-        </button>
       </div>
 
       <div className="games-container">

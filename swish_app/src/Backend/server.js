@@ -202,6 +202,22 @@ app.get("/api/highlights", async (req, res) => {
   }
 });
 
+// Serve player data
+app.get("/api/players", (_req, res) => {
+  const playersPath = path.join(__dirname, "data/players.json");
+  res.sendFile(playersPath);
+});
+
+// Serve predictions data
+app.get("/api/predictions", (_req, res) => {
+  const predictionsPath = path.join(__dirname, "data/predictions.json");
+  res.sendFile(predictionsPath, (err) => {
+    if (err) {
+      res.status(404).json({ success: false, error: "No predictions available yet" });
+    }
+  });
+});
+
 // Proxy for NBA live scores (avoids CORS on client)
 app.get("/api/scores", async (req, res) => {
   try {

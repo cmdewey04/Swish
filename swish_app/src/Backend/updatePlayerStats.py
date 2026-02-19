@@ -56,17 +56,15 @@ def get_player_stats(player_id, player_name, season):
         if df.empty:
             return None
         
-        # Filter for current season
+        # Filter for current season only — no fallback to prior seasons
         current_season_df = df[df['SEASON_ID'] == season]
-        
-        # If no data for current season, use most recent
+
         if current_season_df.empty:
-            current_season = df.iloc[0]
-        else:
-            current_season = current_season_df.iloc[0]
-        
+            return None
+
+        current_season = current_season_df.iloc[0]
         games_played = current_season['GP']
-        
+
         if games_played == 0:
             return None
         
@@ -134,10 +132,11 @@ def update_player_stats():
             # Check if stats actually changed
             old_ppg = player.get('ppg', 0)
             new_ppg = new_stats.get('ppg', 0)
-            
-            # Update all stat fields
+
+            # Update all stat fields and mark active
             player.update(new_stats)
-            
+            player['active'] = new_stats['gp'] > 0
+
             if old_ppg != new_ppg:
                 print(f"    ✓ Updated: {old_ppg} → {new_ppg} PPG ({new_stats['gp']} GP)")
                 updated_count += 1
@@ -145,7 +144,12 @@ def update_player_stats():
                 print(f"    - No change: {new_ppg} PPG")
                 skipped_count += 1
         else:
-            print(f"    ⚠️  No stats available")
+            print(f"    ⚠️  No stats available — marking inactive and clearing stats")
+            player['active'] = False
+            for stat_key in ['gp', 'mpg', 'ppg', 'rpg', 'apg', 'spg', 'bpg', 'topg',
+                             'fgpct', 'fg3pct', 'ftpct', 'fgm', 'fga', 'fg3m', 'fg3a',
+                             'ftm', 'fta', 'oreb', 'dreb', 'pf']:
+                player.pop(stat_key, None)
             failed_count += 1
         
         # Progress update every 50 players

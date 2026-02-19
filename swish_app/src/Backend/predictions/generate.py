@@ -213,7 +213,7 @@ def engineer_features(df):
     df['WIN'] = df['WL'].map({'W': 1, 'L': 0})
     df['HOME_GAME'] = df['MATCHUP'].str.contains("vs.").astype(int)
     df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'], format='%b %d, %Y', errors='coerce')
-    df = df.sort_values(['TEAM_NAME', 'GAME_DATE'])
+    df = df.sort_values(['TEAM_NAME', 'GAME_DATE']).reset_index(drop=True)
 
     def get_situational_stats(group):
         group = group.copy()
@@ -239,7 +239,11 @@ def engineer_features(df):
         group['DAYS_REST'] = (group['GAME_DATE'].diff().dt.days - 1).fillna(1)
         return group
 
-    df = df.groupby('TEAM_NAME', group_keys=False).apply(get_situational_stats).reset_index(drop=True)
+    team_names = df['TEAM_NAME'].copy()
+    df = df.groupby('TEAM_NAME', group_keys=False).apply(
+        get_situational_stats, include_groups=False,
+    ).reset_index(drop=True)
+    df['TEAM_NAME'] = team_names.values
 
     # Extract opponent
     df['OPP_TEAM_ABBR'] = df['MATCHUP'].str.extract(r'(?:vs\. |@ )([A-Z]{3})')

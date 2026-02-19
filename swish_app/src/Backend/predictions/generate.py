@@ -166,33 +166,35 @@ def engineer_features(df):
 
 
 def build_pre_game_stats(df):
-    """Build pre-game (shifted) stats for prediction."""
-    def _build(group):
-        group = group.copy().sort_values('GAME_DATE')
-        group['PRE_PTS_avg'] = group['PTS'].expanding().mean().shift(1)
-        group['PRE_AST_avg'] = group['AST'].expanding().mean().shift(1)
-        group['PRE_REB_avg'] = group['REB'].expanding().mean().shift(1)
-        group['PRE_FG_PCT'] = group['FG_PCT'].expanding().mean().shift(1)
-        group['RECENT_WIN_PCT'] = group['WIN'].shift(1).rolling(5, min_periods=1).mean()
-        group['PRE_WIN_STREAK'] = group['WIN_STREAK'].shift(1).fillna(0)
-        group['PRE_HOME_PCT'] = group['HOME_VENUE_PCT'].shift(1).fillna(0)
-        group['PRE_ROAD_PCT'] = group['ROAD_VENUE_PCT'].shift(1).fillna(0)
-        group['PRE_WIN_PCT'] = group['WIN'].expanding().mean().shift(1).fillna(0)
-        group['DAYS_REST'] = (group['GAME_DATE'].diff().dt.days - 1).fillna(1)
-        group['BACK_TO_BACK'] = (group['DAYS_REST'] == 0).astype(int)
+    """Build pre-game (shifted) stats for prediction. Fully vectorized."""
+    df = df.sort_values(['TEAM_NAME', 'GAME_DATE']).reset_index(drop=True)
+    g = df.groupby('TEAM_NAME')
 
-        group['H2H_WINS'] = 0
-        group['H2H_GAMES'] = 0
-        for i in range(len(group)):
-            opp = group.iloc[i]['OPP_TEAM_NAME']
-            prior = group.iloc[:i]
-            vs_opp = prior[prior['OPP_TEAM_NAME'] == opp]
-            group.iloc[i, group.columns.get_loc('H2H_GAMES')] = len(vs_opp)
-            group.iloc[i, group.columns.get_loc('H2H_WINS')] = vs_opp['WIN'].sum() if len(vs_opp) > 0 else 0
+    # Expanding / rolling stats per team (all vectorized via transform)
+    for col, new_col in [('PTS', 'PRE_PTS_avg'), ('AST', 'PRE_AST_avg'),
+                          ('REB', 'PRE_REB_avg'), ('FG_PCT', 'PRE_FG_PCT')]:
+        df[new_col] = g[col].transform(lambda x: x.expanding().mean().shift(1))
 
-        return group
+    df['RECENT_WIN_PCT'] = g['WIN'].transform(
+        lambda x: x.shift(1).rolling(5, min_periods=1).mean()
+    )
+    df['PRE_WIN_STREAK'] = g['WIN_STREAK'].transform(lambda x: x.shift(1).fillna(0))
+    df['PRE_HOME_PCT'] = g['HOME_VENUE_PCT'].transform(lambda x: x.shift(1).fillna(0))
+    df['PRE_ROAD_PCT'] = g['ROAD_VENUE_PCT'].transform(lambda x: x.shift(1).fillna(0))
+    df['PRE_WIN_PCT'] = g['WIN'].transform(
+        lambda x: x.expanding().mean().shift(1).fillna(0)
+    )
+    df['DAYS_REST'] = g['GAME_DATE'].transform(
+        lambda x: (x.diff().dt.days - 1).fillna(1)
+    )
+    df['BACK_TO_BACK'] = (df['DAYS_REST'] == 0).astype(int)
 
-    return df.groupby('TEAM_NAME', group_keys=False).apply(_build).reset_index(drop=True)
+    # H2H stats — vectorized using cumcount/cumsum per (team, opponent) pair
+    h2h = df.groupby(['TEAM_NAME', 'OPP_TEAM_NAME'])
+    df['H2H_GAMES'] = h2h.cumcount()  # 0 for first meeting, 1 for second, etc.
+    df['H2H_WINS'] = h2h['WIN'].transform(lambda x: x.cumsum().shift(1).fillna(0))
+
+    return df
 
 
 # ══════════════════════════════════════════════════════════

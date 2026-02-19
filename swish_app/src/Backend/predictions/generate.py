@@ -12,6 +12,7 @@ import json
 import time
 import re
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -19,14 +20,11 @@ import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from nba_api.live.nba.endpoints import scoreboard as live_scoreboard
 from nba_api.stats.endpoints import (
     leaguedashplayerstats,
-    teamgamelog,
+    leaguegamelog,
 )
 from nba_api.stats.static import teams as nba_teams_static
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from xgboost import XGBClassifier
 
@@ -48,10 +46,16 @@ ABBR_TO_NAME = {
 }
 NAME_TO_ABBR = {v: k for k, v in ABBR_TO_NAME.items()}
 
-INJURY_TEAM_MAP = {
-    **{name: name for name in ABBR_TO_NAME.values()},
+TEAM_NAME_ALIASES = {
+    "LA Clippers": "Los Angeles Clippers",
+    "LA Lakers": "Los Angeles Lakers",
     "L.A. Clippers": "Los Angeles Clippers",
     "L.A. Lakers": "Los Angeles Lakers",
+}
+
+INJURY_TEAM_MAP = {
+    **{name: name for name in ABBR_TO_NAME.values()},
+    **TEAM_NAME_ALIASES,
 }
 
 STATUS_WEIGHTS = {
@@ -89,36 +93,115 @@ def convert_for_json(obj):
 # STEP 1: Fetch all team game logs
 # ══════════════════════════════════════════════════════════
 
+def _fetch_boxscore(game_id):
+    """Fetch a single boxscore from NBA CDN. Returns (game_id, data) or (game_id, None)."""
+    url = f"https://cdn.nba.com/static/json/liveData/boxscore/boxscore_{game_id}.json"
+    try:
+        resp = requests.get(url, timeout=15)
+        resp.raise_for_status()
+        return game_id, resp.json()["game"]
+    except Exception:
+        return game_id, None
+
+
+def _fetch_via_cdn():
+    """Fallback: build game logs from NBA CDN schedule + boxscores."""
+    print("  Fetching season schedule from CDN...")
+    resp = requests.get(
+        "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2.json",
+        timeout=30,
+    )
+    resp.raise_for_status()
+    schedule = resp.json()["leagueSchedule"]
+
+    # Collect completed regular-season game IDs (prefix '002')
+    game_ids = []
+    for d in schedule["gameDates"]:
+        for g in d.get("games", []):
+            if g.get("gameStatus") == 3 and g["gameId"].startswith("002"):
+                game_ids.append(g["gameId"])
+
+    print(f"  Found {len(game_ids)} completed regular-season games")
+    print("  Fetching boxscores (parallel)...")
+
+    # Build team-name lookup
+    all_nba_teams = nba_teams_static.get_teams()
+    tricode_to_name = {t["abbreviation"]: t["full_name"] for t in all_nba_teams}
+
+    # Parallel fetch boxscores
+    rows = []
+    failed = 0
+    with ThreadPoolExecutor(max_workers=20) as pool:
+        futures = {pool.submit(_fetch_boxscore, gid): gid for gid in game_ids}
+        for i, future in enumerate(as_completed(futures), 1):
+            game_id, game_data = future.result()
+            if game_data is None:
+                failed += 1
+                continue
+
+            game_date = game_data.get("gameTimeUTC", "")[:10]  # YYYY-MM-DD
+
+            for side in ("homeTeam", "awayTeam"):
+                team = game_data[side]
+                opp_side = "awayTeam" if side == "homeTeam" else "homeTeam"
+                opp = game_data[opp_side]
+                stats = team.get("statistics", {})
+
+                tri = team["teamTricode"]
+                opp_tri = opp["teamTricode"]
+                is_home = side == "homeTeam"
+
+                matchup = f"{tri} vs. {opp_tri}" if is_home else f"{tri} @ {opp_tri}"
+
+                rows.append({
+                    "TEAM_ID": team.get("teamId", 0),
+                    "TEAM_NAME": tricode_to_name.get(tri, f"{team.get('teamCity', '')} {team.get('teamName', '')}"),
+                    "GAME_DATE": game_date,
+                    "MATCHUP": matchup,
+                    "WL": "W" if team["score"] > opp["score"] else "L",
+                    "PTS": team["score"],
+                    "AST": stats.get("assists", 0),
+                    "REB": stats.get("reboundsTotal", 0),
+                    "FG_PCT": stats.get("fieldGoalsPercentage", 0.0),
+                })
+
+            if i % 100 == 0:
+                print(f"    {i}/{len(game_ids)} boxscores fetched...")
+
+    print(f"  Fetched {len(game_ids) - failed}/{len(game_ids)} boxscores")
+    if not rows:
+        raise RuntimeError("No game data collected from CDN")
+
+    df = pd.DataFrame(rows)
+    # Convert date format to match nba_api output ("Oct 22, 2025")
+    df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"]).dt.strftime("%b %d, %Y")
+    print(f"  Total rows: {len(df)} ({df['TEAM_NAME'].nunique()} teams)")
+    return df
+
+
 def fetch_team_game_logs(season):
-    """Fetch game logs for all 30 NBA teams."""
-    nba_teams = nba_teams_static.get_teams()
-    all_team_logs = []
+    """Fetch game logs for all 30 NBA teams. Tries stats.nba.com first, falls back to CDN."""
+    all_nba_teams = nba_teams_static.get_teams()
+    team_id_to_name = {t['id']: t['full_name'] for t in all_nba_teams}
 
-    for team in nba_teams:
-        team_id = team['id']
-        team_name = team['full_name']
-        print(f"  Fetching: {team_name}")
+    # Try bulk endpoint first (single request, works from datacenter IPs)
+    try:
+        print("  Trying bulk LeagueGameLog endpoint...")
+        gamelog = leaguegamelog.LeagueGameLog(
+            season=season,
+            season_type_all_star='Regular Season',
+            player_or_team_abbreviation='T',
+            timeout=30,
+        )
+        season_df = gamelog.get_data_frames()[0]
+        season_df['TEAM_NAME'] = season_df['TEAM_ID'].map(team_id_to_name)
+        print(f"  Total rows: {len(season_df)} ({season_df['TEAM_NAME'].nunique()} teams)")
+        return season_df
+    except Exception as e:
+        print(f"  stats.nba.com unavailable: {e}")
+        print("  Falling back to NBA CDN boxscores...")
 
-        try:
-            gamelog = teamgamelog.TeamGameLog(
-                team_id=team_id,
-                season=season,
-                season_type_all_star='Regular Season'
-            )
-            df = gamelog.get_data_frames()[0]
-            df['TEAM_NAME'] = team_name
-            all_team_logs.append(df)
-            time.sleep(1.0)
-        except Exception as e:
-            print(f"  Error fetching {team_name}: {e}")
-            continue
-
-    if not all_team_logs:
-        raise RuntimeError("No team game logs collected")
-
-    season_df = pd.concat(all_team_logs, ignore_index=True)
-    print(f"  Total rows: {len(season_df)}")
-    return season_df
+    return _fetch_via_cdn()
 
 
 # ══════════════════════════════════════════════════════════
@@ -208,7 +291,8 @@ def fetch_player_stats(season):
         player_stats = leaguedashplayerstats.LeagueDashPlayerStats(
             season=season,
             season_type_all_star='Regular Season',
-            per_mode_detailed='PerGame'
+            per_mode_detailed='PerGame',
+            timeout=60,
         )
         player_df = player_stats.get_data_frames()[0]
         player_df['IMPORTANCE'] = player_df['PTS'] + player_df['REB'] + player_df['AST']
@@ -524,14 +608,18 @@ def predict_todays_games(model, features, df, team_injury_scores, team_injury_de
 
     # Fetch today's schedule from NBA live scoreboard
     print("  Fetching today's schedule...")
-    board = live_scoreboard.ScoreBoard()
-    games_data = board.get_dict()
+    scoreboard_url = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
+    resp = requests.get(scoreboard_url, timeout=30)
+    resp.raise_for_status()
+    games_data = resp.json()
 
     todays_games = []
     if 'scoreboard' in games_data and 'games' in games_data['scoreboard']:
         for game in games_data['scoreboard']['games']:
             home_name = f"{game['homeTeam']['teamCity']} {game['homeTeam']['teamName']}"
             away_name = f"{game['awayTeam']['teamCity']} {game['awayTeam']['teamName']}"
+            home_name = TEAM_NAME_ALIASES.get(home_name, home_name)
+            away_name = TEAM_NAME_ALIASES.get(away_name, away_name)
 
             try:
                 home_last = df[df['TEAM_NAME'] == home_name].sort_values('GAME_DATE').iloc[-1]

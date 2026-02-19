@@ -12,6 +12,7 @@ import json
 import time
 import re
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -19,14 +20,11 @@ import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from nba_api.live.nba.endpoints import scoreboard as live_scoreboard
 from nba_api.stats.endpoints import (
     leaguedashplayerstats,
-    teamgamelog,
+    leaguegamelog,
 )
 from nba_api.stats.static import teams as nba_teams_static
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from xgboost import XGBClassifier
 
@@ -48,10 +46,16 @@ ABBR_TO_NAME = {
 }
 NAME_TO_ABBR = {v: k for k, v in ABBR_TO_NAME.items()}
 
-INJURY_TEAM_MAP = {
-    **{name: name for name in ABBR_TO_NAME.values()},
+TEAM_NAME_ALIASES = {
+    "LA Clippers": "Los Angeles Clippers",
+    "LA Lakers": "Los Angeles Lakers",
     "L.A. Clippers": "Los Angeles Clippers",
     "L.A. Lakers": "Los Angeles Lakers",
+}
+
+INJURY_TEAM_MAP = {
+    **{name: name for name in ABBR_TO_NAME.values()},
+    **TEAM_NAME_ALIASES,
 }
 
 STATUS_WEIGHTS = {
@@ -89,36 +93,115 @@ def convert_for_json(obj):
 # STEP 1: Fetch all team game logs
 # ══════════════════════════════════════════════════════════
 
+def _fetch_boxscore(game_id):
+    """Fetch a single boxscore from NBA CDN. Returns (game_id, data) or (game_id, None)."""
+    url = f"https://cdn.nba.com/static/json/liveData/boxscore/boxscore_{game_id}.json"
+    try:
+        resp = requests.get(url, timeout=15)
+        resp.raise_for_status()
+        return game_id, resp.json()["game"]
+    except Exception:
+        return game_id, None
+
+
+def _fetch_via_cdn():
+    """Fallback: build game logs from NBA CDN schedule + boxscores."""
+    print("  Fetching season schedule from CDN...")
+    resp = requests.get(
+        "https://cdn.nba.com/static/json/staticData/scheduleLeagueV2.json",
+        timeout=30,
+    )
+    resp.raise_for_status()
+    schedule = resp.json()["leagueSchedule"]
+
+    # Collect completed regular-season game IDs (prefix '002')
+    game_ids = []
+    for d in schedule["gameDates"]:
+        for g in d.get("games", []):
+            if g.get("gameStatus") == 3 and g["gameId"].startswith("002"):
+                game_ids.append(g["gameId"])
+
+    print(f"  Found {len(game_ids)} completed regular-season games")
+    print("  Fetching boxscores (parallel)...")
+
+    # Build team-name lookup
+    all_nba_teams = nba_teams_static.get_teams()
+    tricode_to_name = {t["abbreviation"]: t["full_name"] for t in all_nba_teams}
+
+    # Parallel fetch boxscores
+    rows = []
+    failed = 0
+    with ThreadPoolExecutor(max_workers=20) as pool:
+        futures = {pool.submit(_fetch_boxscore, gid): gid for gid in game_ids}
+        for i, future in enumerate(as_completed(futures), 1):
+            game_id, game_data = future.result()
+            if game_data is None:
+                failed += 1
+                continue
+
+            game_date = game_data.get("gameTimeUTC", "")[:10]  # YYYY-MM-DD
+
+            for side in ("homeTeam", "awayTeam"):
+                team = game_data[side]
+                opp_side = "awayTeam" if side == "homeTeam" else "homeTeam"
+                opp = game_data[opp_side]
+                stats = team.get("statistics", {})
+
+                tri = team["teamTricode"]
+                opp_tri = opp["teamTricode"]
+                is_home = side == "homeTeam"
+
+                matchup = f"{tri} vs. {opp_tri}" if is_home else f"{tri} @ {opp_tri}"
+
+                rows.append({
+                    "TEAM_ID": team.get("teamId", 0),
+                    "TEAM_NAME": tricode_to_name.get(tri, f"{team.get('teamCity', '')} {team.get('teamName', '')}"),
+                    "GAME_DATE": game_date,
+                    "MATCHUP": matchup,
+                    "WL": "W" if team["score"] > opp["score"] else "L",
+                    "PTS": team["score"],
+                    "AST": stats.get("assists", 0),
+                    "REB": stats.get("reboundsTotal", 0),
+                    "FG_PCT": stats.get("fieldGoalsPercentage", 0.0),
+                })
+
+            if i % 100 == 0:
+                print(f"    {i}/{len(game_ids)} boxscores fetched...")
+
+    print(f"  Fetched {len(game_ids) - failed}/{len(game_ids)} boxscores")
+    if not rows:
+        raise RuntimeError("No game data collected from CDN")
+
+    df = pd.DataFrame(rows)
+    # Convert date format to match nba_api output ("Oct 22, 2025")
+    df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"]).dt.strftime("%b %d, %Y")
+    print(f"  Total rows: {len(df)} ({df['TEAM_NAME'].nunique()} teams)")
+    return df
+
+
 def fetch_team_game_logs(season):
-    """Fetch game logs for all 30 NBA teams."""
-    nba_teams = nba_teams_static.get_teams()
-    all_team_logs = []
+    """Fetch game logs for all 30 NBA teams. Tries stats.nba.com first, falls back to CDN."""
+    all_nba_teams = nba_teams_static.get_teams()
+    team_id_to_name = {t['id']: t['full_name'] for t in all_nba_teams}
 
-    for team in nba_teams:
-        team_id = team['id']
-        team_name = team['full_name']
-        print(f"  Fetching: {team_name}")
+    # Try bulk endpoint first (single request, works from datacenter IPs)
+    try:
+        print("  Trying bulk LeagueGameLog endpoint...")
+        gamelog = leaguegamelog.LeagueGameLog(
+            season=season,
+            season_type_all_star='Regular Season',
+            player_or_team_abbreviation='T',
+            timeout=30,
+        )
+        season_df = gamelog.get_data_frames()[0]
+        season_df['TEAM_NAME'] = season_df['TEAM_ID'].map(team_id_to_name)
+        print(f"  Total rows: {len(season_df)} ({season_df['TEAM_NAME'].nunique()} teams)")
+        return season_df
+    except Exception as e:
+        print(f"  stats.nba.com unavailable: {e}")
+        print("  Falling back to NBA CDN boxscores...")
 
-        try:
-            gamelog = teamgamelog.TeamGameLog(
-                team_id=team_id,
-                season=season,
-                season_type_all_star='Regular Season'
-            )
-            df = gamelog.get_data_frames()[0]
-            df['TEAM_NAME'] = team_name
-            all_team_logs.append(df)
-            time.sleep(2.0)
-        except Exception as e:
-            print(f"  Error fetching {team_name}: {e}")
-            continue
-
-    if not all_team_logs:
-        raise RuntimeError("No team game logs collected")
-
-    season_df = pd.concat(all_team_logs, ignore_index=True)
-    print(f"  Total rows: {len(season_df)}")
-    return season_df
+    return _fetch_via_cdn()
 
 
 # ══════════════════════════════════════════════════════════
@@ -130,7 +213,7 @@ def engineer_features(df):
     df['WIN'] = df['WL'].map({'W': 1, 'L': 0})
     df['HOME_GAME'] = df['MATCHUP'].str.contains("vs.").astype(int)
     df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'], format='%b %d, %Y', errors='coerce')
-    df = df.sort_values(['TEAM_NAME', 'GAME_DATE'])
+    df = df.sort_values(['TEAM_NAME', 'GAME_DATE']).reset_index(drop=True)
 
     def get_situational_stats(group):
         group = group.copy()
@@ -156,7 +239,11 @@ def engineer_features(df):
         group['DAYS_REST'] = (group['GAME_DATE'].diff().dt.days - 1).fillna(1)
         return group
 
-    df = df.groupby('TEAM_NAME', group_keys=False).apply(get_situational_stats).reset_index(drop=True)
+    team_names = df['TEAM_NAME'].copy()
+    df = df.groupby('TEAM_NAME', group_keys=False).apply(
+        get_situational_stats, include_groups=False,
+    ).reset_index(drop=True)
+    df['TEAM_NAME'] = team_names.values
 
     # Extract opponent
     df['OPP_TEAM_ABBR'] = df['MATCHUP'].str.extract(r'(?:vs\. |@ )([A-Z]{3})')
@@ -208,7 +295,8 @@ def fetch_player_stats(season):
         player_stats = leaguedashplayerstats.LeagueDashPlayerStats(
             season=season,
             season_type_all_star='Regular Season',
-            per_mode_detailed='PerGame'
+            per_mode_detailed='PerGame',
+            timeout=60,
         )
         player_df = player_stats.get_data_frames()[0]
         player_df['IMPORTANCE'] = player_df['PTS'] + player_df['REB'] + player_df['AST']
@@ -379,56 +467,53 @@ def compute_injury_scores(injury_df, player_df):
 # ══════════════════════════════════════════════════════════
 
 def build_matchups(df):
-    """Build home-vs-away matchup rows from game data."""
-    home_games = df[df['HOME_GAME'] == 1].copy()
-    matchup_data = []
+    """Build home-vs-away matchup rows from game data (vectorized via merge)."""
+    home = df[df['HOME_GAME'] == 1].copy()
+    away = df[df['HOME_GAME'] == 0].copy()
 
-    for _, row in home_games.iterrows():
-        opp = row['OPP_TEAM_NAME']
-        game_date = row['GAME_DATE']
+    # Merge home rows with their corresponding away opponent rows on date + matchup
+    merged = home.merge(
+        away,
+        left_on=['OPP_TEAM_NAME', 'GAME_DATE'],
+        right_on=['TEAM_NAME', 'GAME_DATE'],
+        suffixes=('_h', '_a'),
+    )
 
-        opp_row = df[(df['TEAM_NAME'] == opp) & (df['GAME_DATE'] == game_date)]
-        if opp_row.empty:
-            continue
-        opp_row = opp_row.iloc[0]
+    # Drop rows missing pre-game stats
+    merged = merged.dropna(subset=['PRE_PTS_avg_h', 'PRE_PTS_avg_a'])
 
-        if pd.isna(row['PRE_PTS_avg']) or pd.isna(opp_row['PRE_PTS_avg']):
-            continue
+    matchup_df = pd.DataFrame({
+        'HOME_PTS_avg': merged['PRE_PTS_avg_h'],
+        'HOME_AST_avg': merged['PRE_AST_avg_h'],
+        'HOME_REB_avg': merged['PRE_REB_avg_h'],
+        'HOME_FG_PCT': merged['PRE_FG_PCT_h'],
+        'HOME_RECENT_WIN_PCT': merged['RECENT_WIN_PCT_h'],
+        'HOME_WIN_STREAK': merged['PRE_WIN_STREAK_h'],
+        'HOME_VENUE_PCT': merged['PRE_HOME_PCT_h'],
+        'HOME_OVERALL_PCT': merged['PRE_WIN_PCT_h'],
+        'HOME_DAYS_REST': merged['DAYS_REST_h'],
+        'HOME_B2B': merged['BACK_TO_BACK_h'],
+        'HOME_H2H_WINS': merged['H2H_WINS_h'],
+        'HOME_H2H_GAMES': merged['H2H_GAMES_h'],
+        'AWAY_PTS_avg': merged['PRE_PTS_avg_a'],
+        'AWAY_AST_avg': merged['PRE_AST_avg_a'],
+        'AWAY_REB_avg': merged['PRE_REB_avg_a'],
+        'AWAY_FG_PCT': merged['PRE_FG_PCT_a'],
+        'AWAY_RECENT_WIN_PCT': merged['RECENT_WIN_PCT_a'],
+        'AWAY_WIN_STREAK': merged['PRE_WIN_STREAK_a'],
+        'AWAY_VENUE_PCT': merged['PRE_ROAD_PCT_a'],
+        'AWAY_OVERALL_PCT': merged['PRE_WIN_PCT_a'],
+        'AWAY_DAYS_REST': merged['DAYS_REST_a'],
+        'AWAY_B2B': merged['BACK_TO_BACK_a'],
+        'REST_DIFF': merged['DAYS_REST_h'] - merged['DAYS_REST_a'],
+        'WIN_PCT_DIFF': merged['PRE_WIN_PCT_h'] - merged['PRE_WIN_PCT_a'],
+        'PTS_DIFF': merged['PRE_PTS_avg_h'] - merged['PRE_PTS_avg_a'],
+        'HOME_WIN': merged['WIN_h'],
+        'GAME_DATE': merged['GAME_DATE'],
+        'HOME_TEAM': merged['TEAM_NAME_h'],
+        'AWAY_TEAM': merged['OPP_TEAM_NAME_h'],
+    }).dropna().sort_values('GAME_DATE').reset_index(drop=True)
 
-        matchup_data.append({
-            'HOME_PTS_avg': row['PRE_PTS_avg'],
-            'HOME_AST_avg': row['PRE_AST_avg'],
-            'HOME_REB_avg': row['PRE_REB_avg'],
-            'HOME_FG_PCT': row['PRE_FG_PCT'],
-            'HOME_RECENT_WIN_PCT': row['RECENT_WIN_PCT'],
-            'HOME_WIN_STREAK': row['PRE_WIN_STREAK'],
-            'HOME_VENUE_PCT': row['PRE_HOME_PCT'],
-            'HOME_OVERALL_PCT': row['PRE_WIN_PCT'],
-            'HOME_DAYS_REST': row['DAYS_REST'],
-            'HOME_B2B': row['BACK_TO_BACK'],
-            'HOME_H2H_WINS': row['H2H_WINS'],
-            'HOME_H2H_GAMES': row['H2H_GAMES'],
-            'AWAY_PTS_avg': opp_row['PRE_PTS_avg'],
-            'AWAY_AST_avg': opp_row['PRE_AST_avg'],
-            'AWAY_REB_avg': opp_row['PRE_REB_avg'],
-            'AWAY_FG_PCT': opp_row['PRE_FG_PCT'],
-            'AWAY_RECENT_WIN_PCT': opp_row['RECENT_WIN_PCT'],
-            'AWAY_WIN_STREAK': opp_row['PRE_WIN_STREAK'],
-            'AWAY_VENUE_PCT': opp_row['PRE_ROAD_PCT'],
-            'AWAY_OVERALL_PCT': opp_row['PRE_WIN_PCT'],
-            'AWAY_DAYS_REST': opp_row['DAYS_REST'],
-            'AWAY_B2B': opp_row['BACK_TO_BACK'],
-            'REST_DIFF': row['DAYS_REST'] - opp_row['DAYS_REST'],
-            'WIN_PCT_DIFF': row['PRE_WIN_PCT'] - opp_row['PRE_WIN_PCT'],
-            'PTS_DIFF': row['PRE_PTS_avg'] - opp_row['PRE_PTS_avg'],
-            'HOME_WIN': row['WIN'],
-            'GAME_DATE': game_date,
-            'HOME_TEAM': row['TEAM_NAME'],
-            'AWAY_TEAM': opp,
-        })
-
-    matchup_df = pd.DataFrame(matchup_data).dropna()
-    matchup_df = matchup_df.sort_values('GAME_DATE').reset_index(drop=True)
     return matchup_df
 
 
@@ -527,14 +612,18 @@ def predict_todays_games(model, features, df, team_injury_scores, team_injury_de
 
     # Fetch today's schedule from NBA live scoreboard
     print("  Fetching today's schedule...")
-    board = live_scoreboard.ScoreBoard()
-    games_data = board.get_dict()
+    scoreboard_url = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
+    resp = requests.get(scoreboard_url, timeout=30)
+    resp.raise_for_status()
+    games_data = resp.json()
 
     todays_games = []
     if 'scoreboard' in games_data and 'games' in games_data['scoreboard']:
         for game in games_data['scoreboard']['games']:
             home_name = f"{game['homeTeam']['teamCity']} {game['homeTeam']['teamName']}"
             away_name = f"{game['awayTeam']['teamCity']} {game['awayTeam']['teamName']}"
+            home_name = TEAM_NAME_ALIASES.get(home_name, home_name)
+            away_name = TEAM_NAME_ALIASES.get(away_name, away_name)
 
             try:
                 home_last = df[df['TEAM_NAME'] == home_name].sort_values('GAME_DATE').iloc[-1]
@@ -611,36 +700,44 @@ def main():
     print(f"  Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'=' * 60}\n")
 
+    t0 = time.time()
+
     # Step 1: Fetch game logs
     print("[1/6] Fetching team game logs...")
     season_df = fetch_team_game_logs(season)
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Step 2: Feature engineering
     print("\n[2/6] Engineering features...")
     df = engineer_features(season_df)
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Step 3: Build pre-game stats
     print("\n[3/6] Building pre-game stats...")
     df = build_pre_game_stats(df)
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Step 4: Fetch injuries & player stats
     print("\n[4/6] Fetching injuries & player stats...")
     player_df = fetch_player_stats(season)
-    time.sleep(2)
+    time.sleep(1)
     injury_df = fetch_nba_injuries()
     team_injury_scores, team_injury_details = compute_injury_scores(injury_df, player_df)
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Step 5: Train model
     print("\n[5/6] Training model...")
     matchup_df = build_matchups(df)
     print(f"  Total matchups: {len(matchup_df)}")
     model, features, accuracy = train_model(matchup_df)
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Step 6: Predict today's games
     print("\n[6/6] Predicting today's games...")
     predictions, todays_games = predict_todays_games(
         model, features, df, team_injury_scores, team_injury_details
     )
+    print(f"  [{time.time() - t0:.1f}s elapsed]")
 
     # Build output
     output = {

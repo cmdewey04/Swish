@@ -3,6 +3,7 @@ const express = require("express");
 const { spawn } = require("child_process");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 
 // Fix: Go up two levels from src/Backend to reach the root .env
 // path.resolve(__dirname) is src/Backend.
@@ -57,80 +58,100 @@ function runPython(scriptName, args = []) {
   });
 }
 
-// Endpoint to fetch box score for a game
+// Endpoint to fetch box score for a game (direct CDN fetch, no Python needed)
 app.get("/api/boxscore/:gameId", async (req, res) => {
   const { gameId } = req.params;
   console.log(`🏀 Fetching box score for game ${gameId}...`);
 
+  const preGameResponse = {
+    success: true,
+    data: {
+      pre_game: true,
+      game_summary: { GAME_STATUS_ID: 1, GAME_ID: gameId },
+      line_score: [],
+      player_stats: [],
+      team_stats: [],
+    },
+  };
+
   try {
-    const output = await runPython("fetch_box_score.py", [gameId]);
-
-    // Ignore python warnings/logs by finding the first JSON bracket
-    const jsonStart = output.indexOf("{");
-    if (jsonStart === -1) {
-      // No JSON returned — likely a pre-game with no box score data yet
-      console.log(
-        `⏳ No box score data for game ${gameId} (likely hasn't started)`,
-      );
-      return res.json({
-        success: true,
-        data: {
-          pre_game: true,
-          game_summary: { GAME_STATUS_ID: 1, GAME_ID: gameId },
-          line_score: [],
-          player_stats: [],
-          team_stats: [],
-        },
-      });
-    }
-
-    const cleanOutput = output.substring(jsonStart);
-
-    let parsed;
-    try {
-      parsed = JSON.parse(cleanOutput);
-    } catch (parseErr) {
-      // JSON parse failed — also likely pre-game or bad response
-      console.log(
-        `⚠️ JSON parse failed for game ${gameId}: ${parseErr.message}`,
-      );
-      return res.json({
-        success: true,
-        data: {
-          pre_game: true,
-          game_summary: { GAME_STATUS_ID: 1, GAME_ID: gameId },
-          line_score: [],
-          player_stats: [],
-          team_stats: [],
-        },
-      });
-    }
-
-    res.json(
-      parsed.success !== undefined ? parsed : { success: true, data: parsed },
+    const cdnRes = await fetch(
+      `https://cdn.nba.com/static/json/liveData/boxscore/boxscore_${gameId}.json`,
     );
+
+    if (!cdnRes.ok) {
+      console.log(`⏳ No box score for game ${gameId} (${cdnRes.status})`);
+      return res.json(preGameResponse);
+    }
+
+    const { game } = await cdnRes.json();
+
+    // Build player_stats array (uppercase keys for React frontend)
+    const player_stats = [];
+    for (const teamKey of ["homeTeam", "awayTeam"]) {
+      const team = game[teamKey];
+      for (const p of team.players || []) {
+        const s = p.statistics || {};
+        player_stats.push({
+          PLAYER_ID: p.personId,
+          PLAYER_NAME: `${p.firstName} ${p.familyName}`,
+          TEAM_ID: team.teamId,
+          TEAM_ABBREVIATION: team.teamTricode,
+          START_POSITION: p.position || "",
+          COMMENT: p.status || "",
+          MIN: s.minutes || "PT00M00.00S",
+          PTS: s.points || 0,
+          REB: s.reboundsTotal || 0,
+          AST: s.assists || 0,
+          STL: s.steals || 0,
+          BLK: s.blocks || 0,
+          FGM: s.fieldGoalsMade || 0,
+          FGA: s.fieldGoalsAttempted || 0,
+          FG_PCT: s.fieldGoalsPercentage || 0,
+          FG3M: s.threePointersMade || 0,
+          FG3A: s.threePointersAttempted || 0,
+          FG3_PCT: s.threePointersPercentage || 0,
+          FTM: s.freeThrowsMade || 0,
+          FTA: s.freeThrowsAttempted || 0,
+          FT_PCT: s.freeThrowsPercentage || 0,
+          OREB: s.reboundsOffensive || 0,
+          DREB: s.reboundsDefensive || 0,
+          TO: s.turnovers || 0,
+          PF: s.foulsPersonal || 0,
+          PLUS_MINUS: s.plusMinusPoints || 0,
+        });
+      }
+    }
+
+    // Build line_score (away first [0], home second [1])
+    const line_score = ["awayTeam", "homeTeam"].map((key) => {
+      const t = game[key];
+      const ts = t.statistics || {};
+      return {
+        TEAM_ID: t.teamId,
+        TEAM_ABBREVIATION: t.teamTricode,
+        TEAM_CITY_NAME: t.teamCity,
+        TEAM_NICKNAME: t.teamName,
+        PTS: ts.points || t.score || 0,
+        TEAM_WINS_LOSSES: `${t.wins || 0}-${t.losses || 0}`,
+      };
+    });
+
+    const statusId =
+      game.gameStatus === 3 ? 3 : game.gameStatus === 2 ? 2 : 1;
+
+    res.json({
+      success: true,
+      data: {
+        player_stats,
+        line_score,
+        game_summary: { GAME_STATUS_ID: statusId, GAME_ID: gameId },
+        team_stats: [],
+      },
+    });
   } catch (err) {
     console.error("❌ Box score failed:", err.message);
-
-    // Check if error suggests game hasn't started
-    if (
-      err.message.includes("Expecting value") ||
-      err.message.includes("No JSON") ||
-      err.message.includes("empty")
-    ) {
-      return res.json({
-        success: true,
-        data: {
-          pre_game: true,
-          game_summary: { GAME_STATUS_ID: 1, GAME_ID: gameId },
-          line_score: [],
-          player_stats: [],
-          team_stats: [],
-        },
-      });
-    }
-
-    res.status(500).json({ success: false, error: err.message });
+    res.json(preGameResponse);
   }
 });
 
@@ -225,7 +246,48 @@ app.get("/api/scores", async (req, res) => {
       "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json",
     );
     const data = await response.json();
-    res.json({ success: true, data: data.scoreboard });
+    const scoreboard = data.scoreboard;
+
+    // Write to public/data/live_scores.json so GameDetail pre-game view works
+    const games = (scoreboard?.games || []).map((game) => ({
+      game_id: game.gameId,
+      game_status: game.gameStatus,
+      game_status_text: game.gameStatusText,
+      period: game.period,
+      game_clock: game.gameClock,
+      home_team: {
+        team_id: game.homeTeam?.teamId,
+        team_name: game.homeTeam?.teamName,
+        team_city: game.homeTeam?.teamCity,
+        team_tricode: game.homeTeam?.teamTricode,
+        score: game.homeTeam?.score,
+        wins: game.homeTeam?.wins,
+        losses: game.homeTeam?.losses,
+      },
+      away_team: {
+        team_id: game.awayTeam?.teamId,
+        team_name: game.awayTeam?.teamName,
+        team_city: game.awayTeam?.teamCity,
+        team_tricode: game.awayTeam?.teamTricode,
+        score: game.awayTeam?.score,
+        wins: game.awayTeam?.wins,
+        losses: game.awayTeam?.losses,
+      },
+    }));
+
+    const liveScores = {
+      last_updated: new Date().toISOString(),
+      games,
+    };
+
+    const publicDataDir = path.resolve(__dirname, "../../public/data");
+    fs.mkdirSync(publicDataDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(publicDataDir, "live_scores.json"),
+      JSON.stringify(liveScores, null, 2),
+    );
+
+    res.json({ success: true, data: scoreboard });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

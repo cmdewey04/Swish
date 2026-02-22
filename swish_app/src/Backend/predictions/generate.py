@@ -30,7 +30,7 @@ from xgboost import XGBClassifier
 
 # ── Constants ──
 
-OUTPUT_PATH = Path(__file__).parent.parent / "data" / "predictions.json"
+OUTPUT_PATH = Path(__file__).parents[3] / "public" / "data" / "predict.json"
 
 ABBR_TO_NAME = {
     "ATL": "Atlanta Hawks", "BOS": "Boston Celtics", "BKN": "Brooklyn Nets",
@@ -93,6 +93,10 @@ def convert_for_json(obj):
 # STEP 1: Fetch all team game logs
 # ══════════════════════════════════════════════════════════
 
+# Cache player stats extracted from CDN boxscores (populated by _fetch_via_cdn)
+_cdn_player_cache = None
+
+
 def _fetch_boxscore(game_id):
     """Fetch a single boxscore from NBA CDN. Returns (game_id, data) or (game_id, None)."""
     url = f"https://cdn.nba.com/static/json/liveData/boxscore/boxscore_{game_id}.json"
@@ -130,6 +134,7 @@ def _fetch_via_cdn():
 
     # Parallel fetch boxscores
     rows = []
+    player_accum = {}  # {(personId, teamTricode): {name, pts, reb, ast, games}}
     failed = 0
     with ThreadPoolExecutor(max_workers=20) as pool:
         futures = {pool.submit(_fetch_boxscore, gid): gid for gid in game_ids}
@@ -165,8 +170,44 @@ def _fetch_via_cdn():
                     "FG_PCT": stats.get("fieldGoalsPercentage", 0.0),
                 })
 
+                # Accumulate player stats for importance calculation
+                for p in team.get("players", []):
+                    ps = p.get("statistics", {})
+                    if not ps or ps.get("minutes", "PT00M00.00S") == "PT00M00.00S":
+                        continue
+                    pid = p.get("personId", 0)
+                    key = (pid, tri)
+                    if key not in player_accum:
+                        full_name = f"{p.get('firstName', '')} {p.get('familyName', '')}".strip()
+                        player_accum[key] = {"name": full_name, "team": tri, "pts": 0, "reb": 0, "ast": 0, "games": 0}
+                    player_accum[key]["pts"] += ps.get("points", 0)
+                    player_accum[key]["reb"] += ps.get("reboundsTotal", 0)
+                    player_accum[key]["ast"] += ps.get("assists", 0)
+                    player_accum[key]["games"] += 1
+
             if i % 100 == 0:
                 print(f"    {i}/{len(game_ids)} boxscores fetched...")
+
+    # Build player per-game averages and cache them
+    global _cdn_player_cache
+    if player_accum:
+        player_rows = []
+        for (pid, tri), acc in player_accum.items():
+            g = acc["games"]
+            if g == 0:
+                continue
+            player_rows.append({
+                "PLAYER_NAME": acc["name"],
+                "TEAM_FULL_NAME": tricode_to_name.get(tri, tri),
+                "PTS": acc["pts"] / g,
+                "REB": acc["reb"] / g,
+                "AST": acc["ast"] / g,
+                "IMPORTANCE": (acc["pts"] + acc["reb"] + acc["ast"]) / g,
+            })
+        pdf = pd.DataFrame(player_rows)
+        pdf["_norm"] = pdf["PLAYER_NAME"].apply(normalize_name)
+        _cdn_player_cache = pdf
+        print(f"  Cached per-game stats for {len(pdf)} players from CDN")
 
     print(f"  Fetched {len(game_ids) - failed}/{len(game_ids)} boxscores")
     if not rows:
@@ -309,7 +350,10 @@ def fetch_player_stats(season):
         print(f"  Loaded stats for {len(player_df)} players")
         return player_df
     except Exception as e:
-        print(f"  Could not fetch player stats: {e}")
+        print(f"  Could not fetch player stats from API: {e}")
+        if _cdn_player_cache is not None:
+            print(f"  Using CDN-derived player stats ({len(_cdn_player_cache)} players)")
+            return _cdn_player_cache
         return None
 
 

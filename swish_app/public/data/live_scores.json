@@ -1,104 +1,279 @@
 {
-  "last_updated": "2026-02-15T13:30:54.023927",
+  "last_updated": "2026-02-22T18:16:37.173Z",
   "games": [
     {
-      "game_id": "0032500011",
+      "game_id": "0022500817",
+      "game_status": 2,
+      "game_status_text": "Q1 9:14",
+      "period": 1,
+      "game_clock": "PT09M14.00S",
+      "home_team": {
+        "team_id": 1610612760,
+        "team_name": "Thunder",
+        "team_city": "Oklahoma City",
+        "team_tricode": "OKC",
+        "score": 9,
+        "wins": 43,
+        "losses": 14
+      },
+      "away_team": {
+        "team_id": 1610612739,
+        "team_name": "Cavaliers",
+        "team_city": "Cleveland",
+        "team_tricode": "CLE",
+        "score": 0,
+        "wins": 36,
+        "losses": 21
+      }
+    },
+    {
+      "game_id": "0022500818",
+      "game_status": 1,
+      "game_status_text": "3:30 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612737,
+        "team_name": "Hawks",
+        "team_city": "Atlanta",
+        "team_tricode": "ATL",
+        "score": 0,
+        "wins": 27,
+        "losses": 31
+      },
+      "away_team": {
+        "team_id": 1610612751,
+        "team_name": "Nets",
+        "team_city": "Brooklyn",
+        "team_tricode": "BKN",
+        "score": 0,
+        "wins": 15,
+        "losses": 40
+      }
+    },
+    {
+      "game_id": "0022500819",
+      "game_status": 1,
+      "game_status_text": "3:30 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612749,
+        "team_name": "Bucks",
+        "team_city": "Milwaukee",
+        "team_tricode": "MIL",
+        "score": 0,
+        "wins": 24,
+        "losses": 30
+      },
+      "away_team": {
+        "team_id": 1610612761,
+        "team_name": "Raptors",
+        "team_city": "Toronto",
+        "team_tricode": "TOR",
+        "score": 0,
+        "wins": 33,
+        "losses": 23
+      }
+    },
+    {
+      "game_id": "0022500820",
+      "game_status": 1,
+      "game_status_text": "3:30 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612744,
+        "team_name": "Warriors",
+        "team_city": "Golden State",
+        "team_tricode": "GSW",
+        "score": 0,
+        "wins": 29,
+        "losses": 27
+      },
+      "away_team": {
+        "team_id": 1610612743,
+        "team_name": "Nuggets",
+        "team_city": "Denver",
+        "team_tricode": "DEN",
+        "score": 0,
+        "wins": 36,
+        "losses": 21
+      }
+    },
+    {
+      "game_id": "0022500821",
       "game_status": 1,
       "game_status_text": "5:00 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 1610616859,
-        "team_name": "Stars",
-        "team_city": "",
-        "team_tricode": "STR",
+        "team_id": 1610612754,
+        "team_name": "Pacers",
+        "team_city": "Indiana",
+        "team_tricode": "IND",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 15,
+        "losses": 42
       },
       "away_team": {
-        "team_id": 1610616861,
-        "team_name": "World",
-        "team_city": "",
-        "team_tricode": "WLD",
+        "team_id": 1610612742,
+        "team_name": "Mavericks",
+        "team_city": "Dallas",
+        "team_tricode": "DAL",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 19,
+        "losses": 36
       }
     },
     {
-      "game_id": "0032500021",
+      "game_id": "0022500822",
       "game_status": 1,
-      "game_status_text": "5:55 pm ET",
+      "game_status_text": "6:00 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 1610616860,
-        "team_name": "Stripes",
-        "team_city": "",
-        "team_tricode": "STP",
+        "team_id": 1610612764,
+        "team_name": "Wizards",
+        "team_city": "Washington",
+        "team_tricode": "WAS",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 16,
+        "losses": 39
       },
       "away_team": {
-        "team_id": 0,
-        "team_name": "",
-        "team_city": "",
-        "team_tricode": "",
+        "team_id": 1610612766,
+        "team_name": "Hornets",
+        "team_city": "Charlotte",
+        "team_tricode": "CHA",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 26,
+        "losses": 31
       }
     },
     {
-      "game_id": "0032500031",
+      "game_id": "0022500823",
       "game_status": 1,
-      "game_status_text": "6:25 pm ET",
+      "game_status_text": "6:30 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 1610616860,
-        "team_name": "Stripes",
-        "team_city": "",
-        "team_tricode": "STP",
+        "team_id": 1610612747,
+        "team_name": "Lakers",
+        "team_city": "Los Angeles",
+        "team_tricode": "LAL",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 34,
+        "losses": 21
       },
       "away_team": {
-        "team_id": 0,
-        "team_name": "",
-        "team_city": "",
-        "team_tricode": "",
+        "team_id": 1610612738,
+        "team_name": "Celtics",
+        "team_city": "Boston",
+        "team_tricode": "BOS",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 36,
+        "losses": 19
       }
     },
     {
-      "game_id": "0032500041",
+      "game_id": "0022500824",
       "game_status": 1,
-      "game_status_text": "7:10 pm ET",
+      "game_status_text": "7:00 pm ET",
       "period": 0,
       "game_clock": "",
       "home_team": {
-        "team_id": 0,
-        "team_name": "",
-        "team_city": "",
-        "team_tricode": "",
+        "team_id": 1610612750,
+        "team_name": "Timberwolves",
+        "team_city": "Minnesota",
+        "team_tricode": "MIN",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 35,
+        "losses": 22
       },
       "away_team": {
-        "team_id": 0,
-        "team_name": "",
-        "team_city": "",
-        "team_tricode": "",
+        "team_id": 1610612755,
+        "team_name": "76ers",
+        "team_city": "Philadelphia",
+        "team_tricode": "PHI",
         "score": 0,
-        "wins": 0,
-        "losses": 0
+        "wins": 30,
+        "losses": 26
+      }
+    },
+    {
+      "game_id": "0022500825",
+      "game_status": 1,
+      "game_status_text": "8:00 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612741,
+        "team_name": "Bulls",
+        "team_city": "Chicago",
+        "team_tricode": "CHI",
+        "score": 0,
+        "wins": 24,
+        "losses": 33
+      },
+      "away_team": {
+        "team_id": 1610612752,
+        "team_name": "Knicks",
+        "team_city": "New York",
+        "team_tricode": "NYK",
+        "score": 0,
+        "wins": 36,
+        "losses": 21
+      }
+    },
+    {
+      "game_id": "0022500826",
+      "game_status": 1,
+      "game_status_text": "8:00 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612756,
+        "team_name": "Suns",
+        "team_city": "Phoenix",
+        "team_tricode": "PHX",
+        "score": 0,
+        "wins": 33,
+        "losses": 24
+      },
+      "away_team": {
+        "team_id": 1610612757,
+        "team_name": "Trail Blazers",
+        "team_city": "Portland",
+        "team_tricode": "POR",
+        "score": 0,
+        "wins": 27,
+        "losses": 30
+      }
+    },
+    {
+      "game_id": "0022500827",
+      "game_status": 1,
+      "game_status_text": "9:00 pm ET",
+      "period": 0,
+      "game_clock": "",
+      "home_team": {
+        "team_id": 1610612746,
+        "team_name": "Clippers",
+        "team_city": "LA",
+        "team_tricode": "LAC",
+        "score": 0,
+        "wins": 27,
+        "losses": 29
+      },
+      "away_team": {
+        "team_id": 1610612753,
+        "team_name": "Magic",
+        "team_city": "Orlando",
+        "team_tricode": "ORL",
+        "score": 0,
+        "wins": 29,
+        "losses": 26
       }
     }
   ]

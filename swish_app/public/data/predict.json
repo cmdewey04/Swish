@@ -1,6 +1,6 @@
 {
   "date": "2026-02-22",
-  "generated_at": "2026-02-22T18:33:10.157895",
+  "generated_at": "2026-02-22T19:22:08.889753",
   "model_accuracy": "56.89%",
   "total_matchups_trained": 832,
   "has_injuries": true,
@@ -18,7 +18,7 @@
       "away_injury_score": 0.3,
       "home_rest": 0,
       "away_rest": 0,
-      "status": "Q1 2:06",
+      "status": "Half",
       "injuries": [
         {
           "player": "Alex Caruso",
@@ -471,7 +471,7 @@
         {
           "player": "MarJon Beauchamp",
           "team": "PHI",
-          "status": "Expected to be out until at least Feb 24",
+          "status": "Game Time Decision",
           "importance": 15.0,
           "impact": 0.3
         },

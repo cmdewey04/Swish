@@ -2,8 +2,8 @@ name: Generate NBA Predictions
 
 on:
   schedule:
-    # 10:00 AM CST = 16:00 UTC
-    - cron: '0 16 * * *'
+    # 1:00 PM CST = 19:00 UTC (after NBA publishes new day's schedule ~12 PM ET)
+    - cron: '0 19 * * *'
   workflow_dispatch: # Allow manual trigger from GitHub UI
 
 permissions:
@@ -31,10 +31,10 @@ jobs:
       - name: Run prediction generator
         run: python swish_app/src/Backend/predictions/generate.py
 
-      - name: Commit predictions.json
+      - name: Commit predictions
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add swish_app/src/Backend/data/predictions.json
+          git add swish_app/public/data/predict.json
           git diff --staged --quiet || git commit -m "Update predictions for $(date -u +%Y-%m-%d)"
           git push

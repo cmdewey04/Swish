@@ -1,278 +1,45 @@
 {
-  "date": "2026-02-24",
-  "generated_at": "2026-02-24T19:48:05.259321",
-  "model_accuracy": "55.29%",
-  "total_matchups_trained": 846,
+  "date": "2026-02-25",
+  "generated_at": "2026-02-25T19:49:00.679299",
+  "model_accuracy": "61.63%",
+  "total_matchups_trained": 857,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Indiana Pacers",
-      "away_team": "Philadelphia 76ers",
-      "home_abbr": "IND",
-      "away_abbr": "PHI",
-      "home_win_prob": 0.211,
-      "away_win_prob": 0.789,
-      "raw_prob": 0.2619999945163727,
-      "injury_adjustment": -0.051,
-      "home_injury_score": 3.65,
-      "away_injury_score": 1.11,
-      "home_rest": 1,
-      "away_rest": 0,
-      "status": "7:00 pm ET",
-      "injuries": [
-        {
-          "player": "Kam Jones",
-          "team": "IND",
-          "status": "Game Time Decision",
-          "importance": 6.7,
-          "impact": 0.13
-        },
-        {
-          "player": "Andrew Nembhard",
-          "team": "IND",
-          "status": "Game Time Decision",
-          "importance": 27.6,
-          "impact": 0.55
-        },
-        {
-          "player": "Micah Potter",
-          "team": "IND",
-          "status": "Game Time Decision",
-          "importance": 14.1,
-          "impact": 0.28
-        },
-        {
-          "player": "Pascal Siakam",
-          "team": "IND",
-          "status": "Game Time Decision",
-          "importance": 34.5,
-          "impact": 0.69
-        },
-        {
-          "player": "T.J. McConnell",
-          "team": "IND",
-          "status": "Game Time Decision",
-          "importance": 16.5,
-          "impact": 0.33
-        },
-        {
-          "player": "Aaron Nesmith",
-          "team": "IND",
-          "status": "Expected to be out until at least Mar 1",
-          "importance": 20.0,
-          "impact": 0.4
-        },
-        {
-          "player": "Ivica Zubac",
-          "team": "IND",
-          "status": "Expected to be out until at least Mar 1",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Obi Toppin",
-          "team": "IND",
-          "status": "Expected to be out until at least Mar 1",
-          "importance": 22.3,
-          "impact": 0.45
-        },
-        {
-          "player": "Johnny Furphy",
-          "team": "IND",
-          "status": "Out for the season",
-          "importance": 10.7,
-          "impact": 0.21
-        },
-        {
-          "player": "Tyrese Haliburton",
-          "team": "IND",
-          "status": "Out for the season",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "MarJon Beauchamp",
-          "team": "PHI",
-          "status": "Game Time Decision",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Joel Embiid",
-          "team": "PHI",
-          "status": "Game Time Decision",
-          "importance": 38.0,
-          "impact": 0.76
-        },
-        {
-          "player": "Johni Broome",
-          "team": "PHI",
-          "status": "Expected to be out until at least Apr 1",
-          "importance": 2.7,
-          "impact": 0.05
-        }
-      ]
-    },
-    {
-      "home_team": "Atlanta Hawks",
-      "away_team": "Washington Wizards",
-      "home_abbr": "ATL",
-      "away_abbr": "WAS",
-      "home_win_prob": 0.888,
-      "away_win_prob": 0.112,
-      "raw_prob": 0.8539999723434448,
-      "injury_adjustment": 0.034,
-      "home_injury_score": 0.3,
-      "away_injury_score": 2.01,
-      "home_rest": 1,
-      "away_rest": 1,
-      "status": "7:30 pm ET",
-      "injuries": [
-        {
-          "player": "Jonathan Kuminga",
-          "team": "ATL",
-          "status": "Game Time Decision",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "D'Angelo Russell",
-          "team": "WAS",
-          "status": "Expected to be out until at least Feb 28",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Trae Young",
-          "team": "WAS",
-          "status": "Expected to be out until at least Feb 28",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Alex Sarr",
-          "team": "WAS",
-          "status": "Expected to be out until at least Feb 28",
-          "importance": 27.7,
-          "impact": 0.55
-        },
-        {
-          "player": "Anthony Davis",
-          "team": "WAS",
-          "status": "Expected to be out until at least Mar 2",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Cam Whitmore",
-          "team": "WAS",
-          "status": "Out for the season",
-          "importance": 12.7,
-          "impact": 0.25
-        },
-        {
-          "player": "Dante Exum",
-          "team": "WAS",
-          "status": "Out for the season",
-          "importance": 15.0,
-          "impact": 0.3
-        }
-      ]
-    },
-    {
-      "home_team": "Brooklyn Nets",
-      "away_team": "Dallas Mavericks",
-      "home_abbr": "BKN",
-      "away_abbr": "DAL",
-      "home_win_prob": 0.422,
-      "away_win_prob": 0.578,
-      "raw_prob": 0.38999998569488525,
-      "injury_adjustment": 0.032,
-      "home_injury_score": 0.0,
-      "away_injury_score": 1.61,
-      "home_rest": 1,
-      "away_rest": 1,
-      "status": "7:30 pm ET",
-      "injuries": [
-        {
-          "player": "Daniel Gafford",
-          "team": "DAL",
-          "status": "Game Time Decision",
-          "importance": 15.4,
-          "impact": 0.31
-        },
-        {
-          "player": "Cooper Flagg",
-          "team": "DAL",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 31.1,
-          "impact": 0.62
-        },
-        {
-          "player": "Caleb Martin",
-          "team": "DAL",
-          "status": "Game Time Decision",
-          "importance": 7.5,
-          "impact": 0.15
-        },
-        {
-          "player": "Kyrie Irving",
-          "team": "DAL",
-          "status": "Out for the season",
-          "importance": 15.0,
-          "impact": 0.3
-        },
-        {
-          "player": "Dereck Lively II",
-          "team": "DAL",
-          "status": "Out for the season",
-          "importance": 11.4,
-          "impact": 0.23
-        }
-      ]
-    },
-    {
-      "home_team": "Toronto Raptors",
+      "home_team": "Detroit Pistons",
       "away_team": "Oklahoma City Thunder",
-      "home_abbr": "TOR",
+      "home_abbr": "DET",
       "away_abbr": "OKC",
       "home_win_prob": 0.376,
       "away_win_prob": 0.624,
-      "raw_prob": 0.32600000500679016,
-      "injury_adjustment": 0.05,
-      "home_injury_score": 0.4,
-      "away_injury_score": 2.9,
-      "home_rest": 1,
-      "away_rest": 1,
+      "raw_prob": 0.3089999854564667,
+      "injury_adjustment": 0.068,
+      "home_injury_score": 0.0,
+      "away_injury_score": 3.38,
+      "home_rest": 0,
+      "away_rest": 0,
       "status": "7:30 pm ET",
       "injuries": [
-        {
-          "player": "Jakob Poeltl",
-          "team": "TOR",
-          "status": "Expected to be out until at least Feb 25",
-          "importance": 18.5,
-          "impact": 0.37
-        },
-        {
-          "player": "Chucky Hepburn",
-          "team": "TOR",
-          "status": "Expected to be out until at least Feb 25",
-          "importance": 1.5,
-          "impact": 0.03
-        },
         {
           "player": "Chet Holmgren",
           "team": "OKC",
           "status": "Game Time Decision",
-          "importance": 27.9,
-          "impact": 0.56
+          "importance": 27.7,
+          "impact": 0.55
         },
         {
           "player": "Alex Caruso",
           "team": "OKC",
           "status": "Game Time Decision",
-          "importance": 10.8,
+          "importance": 11.1,
           "impact": 0.22
+        },
+        {
+          "player": "Isaiah Hartenstein",
+          "team": "OKC",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 23.7,
+          "impact": 0.47
         },
         {
           "player": "Ajay Mitchell",
@@ -282,18 +49,18 @@
           "impact": 0.42
         },
         {
-          "player": "Shai Gilgeous-Alexander",
-          "team": "OKC",
-          "status": "Expected to be out until at least Feb 27",
-          "importance": 42.7,
-          "impact": 0.85
-        },
-        {
           "player": "Jalen Williams",
           "team": "OKC",
           "status": "Expected to be out until at least Mar 7",
           "importance": 27.6,
           "impact": 0.55
+        },
+        {
+          "player": "Shai Gilgeous-Alexander",
+          "team": "OKC",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 42.7,
+          "impact": 0.85
         },
         {
           "player": "Thomas Sorber",
@@ -305,107 +72,215 @@
       ]
     },
     {
-      "home_team": "Cleveland Cavaliers",
-      "away_team": "New York Knicks",
-      "home_abbr": "CLE",
-      "away_abbr": "NYK",
-      "home_win_prob": 0.555,
-      "away_win_prob": 0.445,
-      "raw_prob": 0.5540000200271606,
-      "injury_adjustment": 0.001,
-      "home_injury_score": 0.3,
-      "away_injury_score": 0.36,
-      "home_rest": 1,
+      "home_team": "Toronto Raptors",
+      "away_team": "San Antonio Spurs",
+      "home_abbr": "TOR",
+      "away_abbr": "SAS",
+      "home_win_prob": 0.113,
+      "away_win_prob": 0.887,
+      "raw_prob": 0.11900000274181366,
+      "injury_adjustment": -0.006,
+      "home_injury_score": 0.69,
+      "away_injury_score": 0.41,
+      "home_rest": 0,
       "away_rest": 0,
       "status": "7:30 pm ET",
       "injuries": [
         {
-          "player": "Max Strus",
-          "team": "CLE",
-          "status": "Expected to be out until at least Feb 27",
+          "player": "Chucky Hepburn",
+          "team": "TOR",
+          "status": "Expected to be out until at least Feb 28",
+          "importance": 1.5,
+          "impact": 0.03
+        },
+        {
+          "player": "Scottie Barnes",
+          "team": "TOR",
+          "status": "Game Time Decision",
+          "importance": 33.1,
+          "impact": 0.66
+        },
+        {
+          "player": "Mason Plumlee",
+          "team": "SAS",
+          "status": "Expected to be out until at least Feb 26",
           "importance": 15.0,
           "impact": 0.3
         },
         {
-          "player": "Miles McBride",
-          "team": "NYK",
-          "status": "Expected to be out until at least Apr 1",
-          "importance": 18.2,
-          "impact": 0.36
+          "player": "David Jones",
+          "team": "SAS",
+          "status": "Out for the season",
+          "importance": 5.7,
+          "impact": 0.11
         }
       ]
     },
     {
-      "home_team": "Chicago Bulls",
-      "away_team": "Charlotte Hornets",
-      "home_abbr": "CHI",
-      "away_abbr": "CHA",
-      "home_win_prob": 0.203,
-      "away_win_prob": 0.797,
-      "raw_prob": 0.22200000286102295,
-      "injury_adjustment": -0.019,
-      "home_injury_score": 1.11,
-      "away_injury_score": 0.14,
+      "home_team": "Memphis Grizzlies",
+      "away_team": "Golden State Warriors",
+      "home_abbr": "MEM",
+      "away_abbr": "GSW",
+      "home_win_prob": 0.3,
+      "away_win_prob": 0.7,
+      "raw_prob": 0.35499998927116394,
+      "injury_adjustment": -0.055,
+      "home_injury_score": 2.74,
+      "away_injury_score": 0.0,
       "home_rest": 0,
-      "away_rest": 1,
+      "away_rest": 0,
+      "status": "7:30 pm ET",
+      "injuries": [
+        {
+          "player": "Cedric Coward",
+          "team": "MEM",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 22.5,
+          "impact": 0.45
+        },
+        {
+          "player": "Santi Aldama",
+          "team": "MEM",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 23.6,
+          "impact": 0.47
+        },
+        {
+          "player": "Kyle Anderson",
+          "team": "MEM",
+          "status": "Game Time Decision",
+          "importance": 13.5,
+          "impact": 0.27
+        },
+        {
+          "player": "Brandon Clarke",
+          "team": "MEM",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 7.5,
+          "impact": 0.15
+        },
+        {
+          "player": "Kentavious Caldwell-Pope",
+          "team": "MEM",
+          "status": "Out for the season",
+          "importance": 13.6,
+          "impact": 0.27
+        },
+        {
+          "player": "Ja Morant",
+          "team": "MEM",
+          "status": "Expected to be out until at least Mar 7",
+          "importance": 30.8,
+          "impact": 0.61
+        },
+        {
+          "player": "Zach Edey",
+          "team": "MEM",
+          "status": "Expected to be out until at least Mar 4",
+          "importance": 25.8,
+          "impact": 0.52
+        }
+      ]
+    },
+    {
+      "home_team": "Houston Rockets",
+      "away_team": "Sacramento Kings",
+      "home_abbr": "HOU",
+      "away_abbr": "SAC",
+      "home_win_prob": 0.92,
+      "away_win_prob": 0.08,
+      "raw_prob": 0.9110000133514404,
+      "injury_adjustment": 0.009,
+      "home_injury_score": 1.32,
+      "away_injury_score": 1.79,
+      "home_rest": 0,
+      "away_rest": 0,
       "status": "8:00 pm ET",
       "injuries": [
         {
-          "player": "Jalen Smith",
-          "team": "CHI",
+          "player": "Amen Thompson",
+          "team": "HOU",
           "status": "Expected to be out until at least Feb 26",
-          "importance": 18.5,
-          "impact": 0.37
+          "importance": 30.3,
+          "impact": 0.61
         },
         {
-          "player": "Jaden Ivey",
-          "team": "CHI",
-          "status": "Expected to be out until at least Mar 8",
-          "importance": 20.2,
-          "impact": 0.4
+          "player": "Jae'Sean Tate",
+          "team": "HOU",
+          "status": "Expected to be out until at least Mar 10",
+          "importance": 4.6,
+          "impact": 0.09
         },
         {
-          "player": "Zach Collins",
-          "team": "CHI",
+          "player": "Steven Adams",
+          "team": "HOU",
           "status": "Out for the season",
-          "importance": 16.8,
-          "impact": 0.34
+          "importance": 16.0,
+          "impact": 0.32
         },
         {
-          "player": "Noa Essengue",
-          "team": "CHI",
+          "player": "Fred VanVleet",
+          "team": "HOU",
+          "status": "Expected to be out until at least Jun 1",
+          "importance": 15.0,
+          "impact": 0.3
+        },
+        {
+          "player": "Devin Carter",
+          "team": "SAC",
+          "status": "Game Time Decision",
+          "importance": 10.3,
+          "impact": 0.21
+        },
+        {
+          "player": "De'Andre Hunter",
+          "team": "SAC",
           "status": "Out for the season",
-          "importance": 0.0,
-          "impact": 0.0
+          "importance": 9.5,
+          "impact": 0.19
         },
         {
-          "player": "Liam McNeeley",
-          "team": "CHA",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 7.1,
-          "impact": 0.14
+          "player": "Zach LaVine",
+          "team": "SAC",
+          "status": "Out for the season",
+          "importance": 24.2,
+          "impact": 0.48
+        },
+        {
+          "player": "Dylan Cardwell",
+          "team": "SAC",
+          "status": "Expected to be out until at least Mar 19",
+          "importance": 14.3,
+          "impact": 0.29
+        },
+        {
+          "player": "Domantas Sabonis",
+          "team": "SAC",
+          "status": "Out for the season",
+          "importance": 31.3,
+          "impact": 0.63
         }
       ]
     },
     {
       "home_team": "Milwaukee Bucks",
-      "away_team": "Miami Heat",
+      "away_team": "Cleveland Cavaliers",
       "home_abbr": "MIL",
-      "away_abbr": "MIA",
-      "home_win_prob": 0.259,
-      "away_win_prob": 0.741,
-      "raw_prob": 0.2619999945163727,
-      "injury_adjustment": -0.002,
+      "away_abbr": "CLE",
+      "home_win_prob": 0.232,
+      "away_win_prob": 0.768,
+      "raw_prob": 0.23499999940395355,
+      "injury_adjustment": -0.003,
       "home_injury_score": 1.05,
-      "away_injury_score": 0.93,
-      "home_rest": 1,
-      "away_rest": 1,
+      "away_injury_score": 0.9,
+      "home_rest": 0,
+      "away_rest": 0,
       "status": "8:00 pm ET",
       "injuries": [
         {
           "player": "Giannis Antetokounmpo",
           "team": "MIL",
-          "status": "Expected to be out until at least Feb 25",
+          "status": "Expected to be out until at least Feb 27",
           "importance": 43.6,
           "impact": 0.87
         },
@@ -417,127 +292,82 @@
           "impact": 0.18
         },
         {
-          "player": "Nikola Jovic",
-          "team": "MIA",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 13.1,
-          "impact": 0.26
-        },
-        {
-          "player": "Davion Mitchell",
-          "team": "MIA",
+          "player": "Evan Mobley",
+          "team": "CLE",
           "status": "Game Time Decision",
-          "importance": 18.6,
-          "impact": 0.37
+          "importance": 30.0,
+          "impact": 0.6
         },
         {
-          "player": "Terry Rozier",
-          "team": "MIA",
-          "status": "Expected to be out until at least Apr 1",
+          "player": "Max Strus",
+          "team": "CLE",
+          "status": "Expected to be out until at least Feb 27",
           "importance": 15.0,
           "impact": 0.3
         }
       ]
     },
     {
-      "home_team": "New Orleans Pelicans",
-      "away_team": "Golden State Warriors",
-      "home_abbr": "NOP",
-      "away_abbr": "GSW",
-      "home_win_prob": 0.49,
-      "away_win_prob": 0.51,
-      "raw_prob": 0.5109999775886536,
-      "injury_adjustment": -0.021,
-      "home_injury_score": 1.03,
-      "away_injury_score": 0.0,
-      "home_rest": 1,
-      "away_rest": 1,
-      "status": "8:00 pm ET",
-      "injuries": [
-        {
-          "player": "Yves Missi",
-          "team": "NOP",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 12.4,
-          "impact": 0.25
-        },
-        {
-          "player": "Trey Murphy III",
-          "team": "NOP",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 31.6,
-          "impact": 0.63
-        },
-        {
-          "player": "Micah Peavy",
-          "team": "NOP",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 7.4,
-          "impact": 0.15
-        }
-      ]
-    },
-    {
-      "home_team": "Phoenix Suns",
+      "home_team": "Denver Nuggets",
       "away_team": "Boston Celtics",
-      "home_abbr": "PHX",
+      "home_abbr": "DEN",
       "away_abbr": "BOS",
-      "home_win_prob": 0.336,
-      "away_win_prob": 0.664,
-      "raw_prob": 0.3659999966621399,
-      "injury_adjustment": -0.03,
-      "home_injury_score": 2.63,
+      "home_win_prob": 0.363,
+      "away_win_prob": 0.637,
+      "raw_prob": 0.3889999985694885,
+      "injury_adjustment": -0.026,
+      "home_injury_score": 2.43,
       "away_injury_score": 1.12,
-      "home_rest": 0,
-      "away_rest": 1,
-      "status": "9:00 pm ET",
+      "home_rest": 2,
+      "away_rest": 0,
+      "status": "10:00 pm ET",
       "injuries": [
         {
-          "player": "Cole Anthony",
-          "team": "PHX",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 15.0,
-          "impact": 0.3
+          "player": "Julian Strawther",
+          "team": "DEN",
+          "status": "Game Time Decision",
+          "importance": 10.3,
+          "impact": 0.21
         },
         {
-          "player": "Jordan Goodwin",
-          "team": "PHX",
-          "status": "Expected to be out until at least Mar 3",
-          "importance": 15.9,
-          "impact": 0.32
+          "player": "Jalen Pickett",
+          "team": "DEN",
+          "status": "Expected to be out until at least Feb 27",
+          "importance": 10.6,
+          "impact": 0.21
         },
         {
-          "player": "Dillon Brooks",
-          "team": "PHX",
-          "status": "Expected to be out until at least Mar 28",
+          "player": "Jamal Murray",
+          "team": "DEN",
+          "status": "Game Time Decision",
+          "importance": 37.4,
+          "impact": 0.75
+        },
+        {
+          "player": "Peyton Watson",
+          "team": "DEN",
+          "status": "Expected to be out until at least Mar 9",
+          "importance": 21.8,
+          "impact": 0.44
+        },
+        {
+          "player": "Aaron Gordon",
+          "team": "DEN",
+          "status": "Expected to be out until at least Feb 27",
           "importance": 26.3,
           "impact": 0.53
         },
         {
-          "player": "Grayson Allen",
-          "team": "PHX",
-          "status": "Game Time Decision",
-          "importance": 24.4,
-          "impact": 0.49
-        },
-        {
-          "player": "Devin Booker",
-          "team": "PHX",
-          "status": "Expected to be out until at least Mar 3",
-          "importance": 34.8,
-          "impact": 0.7
-        },
-        {
-          "player": "Haywood Highsmith",
-          "team": "PHX",
-          "status": "Expected to be out until at least Mar 3",
+          "player": "Tamar Bates",
+          "team": "DEN",
+          "status": "Expected to be out until at least Apr 1",
           "importance": 15.0,
           "impact": 0.3
         },
         {
           "player": "Jaylen Brown",
           "team": "BOS",
-          "status": "Expected to be out until at least Feb 25",
+          "status": "Game Time Decision",
           "importance": 41.1,
           "impact": 0.82
         },
@@ -547,82 +377,6 @@
           "status": "Expected to be out until at least Mar 4",
           "importance": 15.0,
           "impact": 0.3
-        }
-      ]
-    },
-    {
-      "home_team": "Portland Trail Blazers",
-      "away_team": "Minnesota Timberwolves",
-      "home_abbr": "POR",
-      "away_abbr": "MIN",
-      "home_win_prob": 0.428,
-      "away_win_prob": 0.572,
-      "raw_prob": 0.46000000834465027,
-      "injury_adjustment": -0.033,
-      "home_injury_score": 1.63,
-      "away_injury_score": 0.0,
-      "home_rest": 0,
-      "away_rest": 0,
-      "status": "10:00 pm ET",
-      "injuries": [
-        {
-          "player": "Shaedon Sharpe",
-          "team": "POR",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 28.4,
-          "impact": 0.57
-        },
-        {
-          "player": "Deni Avdija",
-          "team": "POR",
-          "status": "Expected to be out until at least Feb 26",
-          "importance": 38.1,
-          "impact": 0.76
-        },
-        {
-          "player": "Damian Lillard",
-          "team": "POR",
-          "status": "Out for the season",
-          "importance": 15.0,
-          "impact": 0.3
-        }
-      ]
-    },
-    {
-      "home_team": "Los Angeles Lakers",
-      "away_team": "Orlando Magic",
-      "home_abbr": "LAL",
-      "away_abbr": "ORL",
-      "home_win_prob": 0.682,
-      "away_win_prob": 0.318,
-      "raw_prob": 0.6650000214576721,
-      "injury_adjustment": 0.017,
-      "home_injury_score": 0.23,
-      "away_injury_score": 1.08,
-      "home_rest": 1,
-      "away_rest": 0,
-      "status": "10:30 pm ET",
-      "injuries": [
-        {
-          "player": "Jaxson Hayes",
-          "team": "LAL",
-          "status": "Game Time Decision",
-          "importance": 11.5,
-          "impact": 0.23
-        },
-        {
-          "player": "Jalen Suggs",
-          "team": "ORL",
-          "status": "Game Time Decision",
-          "importance": 23.3,
-          "impact": 0.47
-        },
-        {
-          "player": "Franz Wagner",
-          "team": "ORL",
-          "status": "Expected to be out until at least Mar 11",
-          "importance": 30.7,
-          "impact": 0.61
         }
       ]
     }

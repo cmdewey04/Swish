@@ -1,8 +1,85 @@
 {
-  "date": "2026-04-13",
-  "generated_at": "2026-04-13T20:03:34.018141",
-  "model_accuracy": "75.92%",
+  "date": "2026-04-14",
+  "generated_at": "2026-04-14T20:03:53.891777",
+  "model_accuracy": "72.24%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
-  "games": []
+  "games": [
+    {
+      "home_team": "Charlotte Hornets",
+      "away_team": "Miami Heat",
+      "home_abbr": "CHA",
+      "away_abbr": "MIA",
+      "home_win_prob": 0.804,
+      "away_win_prob": 0.196,
+      "raw_prob": 0.7990000247955322,
+      "injury_adjustment": 0.004,
+      "home_injury_score": 0.24,
+      "away_injury_score": 0.47,
+      "home_rest": 1,
+      "away_rest": 1,
+      "status": "7:30 pm ET",
+      "injuries": [
+        {
+          "player": "PJ Hall",
+          "team": "CHA",
+          "status": "Expected to be out until at least Oct 1",
+          "importance": 12.2,
+          "impact": 0.24
+        },
+        {
+          "player": "Nikola Jovic",
+          "team": "MIA",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 12.7,
+          "impact": 0.25
+        },
+        {
+          "player": "Dru Smith",
+          "team": "MIA",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 10.7,
+          "impact": 0.21
+        }
+      ]
+    },
+    {
+      "home_team": "Phoenix Suns",
+      "away_team": "Portland Trail Blazers",
+      "home_abbr": "PHX",
+      "away_abbr": "POR",
+      "home_win_prob": 0.647,
+      "away_win_prob": 0.353,
+      "raw_prob": 0.640999972820282,
+      "injury_adjustment": 0.006,
+      "home_injury_score": 0.47,
+      "away_injury_score": 0.78,
+      "home_rest": 0,
+      "away_rest": 0,
+      "status": "10:00 pm ET",
+      "injuries": [
+        {
+          "player": "Grayson Allen",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 14",
+          "importance": 23.4,
+          "impact": 0.47
+        },
+        {
+          "player": "Jerami Grant",
+          "team": "POR",
+          "status": "Expected to be out until at least Apr 14",
+          "importance": 24.2,
+          "impact": 0.48
+        },
+        {
+          "player": "Damian Lillard",
+          "team": "POR",
+          "status": "Expected to be out until at least Oct 1",
+          "importance": 15.0,
+          "impact": 0.3
+        }
+      ]
+    }
+  ]
 }

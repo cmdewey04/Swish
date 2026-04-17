@@ -1,8 +1,78 @@
 {
-  "date": "2026-04-16",
-  "generated_at": "2026-04-16T19:58:56.411291",
-  "model_accuracy": "74.29%",
+  "date": "2026-04-17",
+  "generated_at": "2026-04-17T19:57:06.519882",
+  "model_accuracy": "75.92%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
-  "games": []
+  "games": [
+    {
+      "home_team": "Orlando Magic",
+      "away_team": "Charlotte Hornets",
+      "home_abbr": "ORL",
+      "away_abbr": "CHA",
+      "home_win_prob": 0.33,
+      "away_win_prob": 0.67,
+      "raw_prob": 0.3199999928474426,
+      "injury_adjustment": 0.01,
+      "home_injury_score": 0.11,
+      "away_injury_score": 0.62,
+      "home_rest": 4,
+      "away_rest": 4,
+      "status": "7:30 pm ET",
+      "injuries": [
+        {
+          "player": "Jonathan Isaac",
+          "team": "ORL",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 5.5,
+          "impact": 0.11
+        },
+        {
+          "player": "Moussa Diabate",
+          "team": "CHA",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 18.5,
+          "impact": 0.37
+        },
+        {
+          "player": "PJ Hall",
+          "team": "CHA",
+          "status": "Expected to be out until at least Oct 1",
+          "importance": 12.2,
+          "impact": 0.24
+        }
+      ]
+    },
+    {
+      "home_team": "Phoenix Suns",
+      "away_team": "Golden State Warriors",
+      "home_abbr": "PHX",
+      "away_abbr": "GSW",
+      "home_win_prob": 0.839,
+      "away_win_prob": 0.161,
+      "raw_prob": 0.8569999933242798,
+      "injury_adjustment": -0.018,
+      "home_injury_score": 0.88,
+      "away_injury_score": 0.0,
+      "home_rest": 3,
+      "away_rest": 3,
+      "status": "10:00 pm ET",
+      "injuries": [
+        {
+          "player": "Mark Williams",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 20.6,
+          "impact": 0.41
+        },
+        {
+          "player": "Grayson Allen",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 17",
+          "importance": 23.4,
+          "impact": 0.47
+        }
+      ]
+    }
+  ]
 }

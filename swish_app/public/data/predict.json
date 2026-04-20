@@ -1,138 +1,114 @@
 {
-  "date": "2026-04-19",
-  "generated_at": "2026-04-19T19:39:40.372733",
-  "model_accuracy": "72.65%",
+  "date": "2026-04-20",
+  "generated_at": "2026-04-20T20:00:02.521956",
+  "model_accuracy": "73.06%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Boston Celtics",
-      "away_team": "Philadelphia 76ers",
-      "home_abbr": "BOS",
-      "away_abbr": "PHI",
-      "home_win_prob": 0.796,
-      "away_win_prob": 0.204,
-      "raw_prob": 0.781000018119812,
-      "injury_adjustment": 0.015,
-      "home_injury_score": 0.0,
-      "away_injury_score": 0.77,
-      "home_rest": 6,
-      "away_rest": 6,
-      "status": "Final",
+      "home_team": "Cleveland Cavaliers",
+      "away_team": "Toronto Raptors",
+      "home_abbr": "CLE",
+      "away_abbr": "TOR",
+      "home_win_prob": 0.842,
+      "away_win_prob": 0.158,
+      "raw_prob": 0.8349999785423279,
+      "injury_adjustment": 0.007,
+      "home_injury_score": 0.2,
+      "away_injury_score": 0.56,
+      "home_rest": 7,
+      "away_rest": 7,
+      "status": "7:00 pm ET",
       "injuries": [
         {
-          "player": "Joel Embiid",
-          "team": "PHI",
-          "status": "Expected to be out until at least Apr 24",
-          "importance": 38.5,
-          "impact": 0.77
-        }
-      ]
-    },
-    {
-      "home_team": "Oklahoma City Thunder",
-      "away_team": "Phoenix Suns",
-      "home_abbr": "OKC",
-      "away_abbr": "PHX",
-      "home_win_prob": 0.705,
-      "away_win_prob": 0.295,
-      "raw_prob": 0.6930000185966492,
-      "injury_adjustment": 0.012,
-      "home_injury_score": 0.3,
-      "away_injury_score": 0.88,
-      "home_rest": 5,
-      "away_rest": 5,
-      "status": "3:30 pm ET",
-      "injuries": [
-        {
-          "player": "Thomas Sorber",
-          "team": "OKC",
-          "status": "Expected to be out until at least Oct 1",
-          "importance": 15.0,
-          "impact": 0.3
+          "player": "Thomas Bryant",
+          "team": "CLE",
+          "status": "Expected to be out until at least Apr 23",
+          "importance": 10.1,
+          "impact": 0.2
         },
         {
-          "player": "Mark Williams",
-          "team": "PHX",
-          "status": "Expected to be out until at least Apr 22",
-          "importance": 20.6,
-          "impact": 0.41
+          "player": "Immanuel Quickley",
+          "team": "TOR",
+          "status": "Expected to be out until at least Apr 20",
+          "importance": 26.4,
+          "impact": 0.53
         },
         {
-          "player": "Grayson Allen",
-          "team": "PHX",
-          "status": "Expected to be out until at least Apr 19",
-          "importance": 23.4,
-          "impact": 0.47
-        }
-      ]
-    },
-    {
-      "home_team": "Detroit Pistons",
-      "away_team": "Orlando Magic",
-      "home_abbr": "DET",
-      "away_abbr": "ORL",
-      "home_win_prob": 0.747,
-      "away_win_prob": 0.253,
-      "raw_prob": 0.7329999804496765,
-      "injury_adjustment": 0.014,
-      "home_injury_score": 0.0,
-      "away_injury_score": 0.68,
-      "home_rest": 6,
-      "away_rest": 6,
-      "status": "6:30 pm ET",
-      "injuries": [
-        {
-          "player": "Desmond Bane",
-          "team": "ORL",
-          "status": "Expected to be out until at least Apr 19",
-          "importance": 28.3,
-          "impact": 0.57
-        },
-        {
-          "player": "Jonathan Isaac",
-          "team": "ORL",
-          "status": "Expected to be out until at least Apr 19",
-          "importance": 5.5,
-          "impact": 0.11
-        }
-      ]
-    },
-    {
-      "home_team": "San Antonio Spurs",
-      "away_team": "Portland Trail Blazers",
-      "home_abbr": "SAS",
-      "away_abbr": "POR",
-      "home_win_prob": 0.757,
-      "away_win_prob": 0.243,
-      "raw_prob": 0.7549999952316284,
-      "injury_adjustment": 0.002,
-      "home_injury_score": 0.19,
-      "away_injury_score": 0.3,
-      "home_rest": 5,
-      "away_rest": 5,
-      "status": "9:00 pm ET",
-      "injuries": [
-        {
-          "player": "Jordan McLaughlin",
-          "team": "SAS",
-          "status": "Expected to be out until at least Apr 21",
-          "importance": 3.6,
-          "impact": 0.07
-        },
-        {
-          "player": "David Jones",
-          "team": "SAS",
+          "player": "Chucky Hepburn",
+          "team": "TOR",
           "status": "Expected to be out until at least Jul 2",
-          "importance": 5.7,
-          "impact": 0.11
+          "importance": 1.5,
+          "impact": 0.03
+        }
+      ]
+    },
+    {
+      "home_team": "New York Knicks",
+      "away_team": "Atlanta Hawks",
+      "home_abbr": "NYK",
+      "away_abbr": "ATL",
+      "home_win_prob": 0.739,
+      "away_win_prob": 0.261,
+      "raw_prob": 0.7329999804496765,
+      "injury_adjustment": 0.007,
+      "home_injury_score": 0.48,
+      "away_injury_score": 0.82,
+      "home_rest": 7,
+      "away_rest": 7,
+      "status": "8:00 pm ET",
+      "injuries": [
+        {
+          "player": "OG Anunoby",
+          "team": "NYK",
+          "status": "Expected to be out until at least Apr 20",
+          "importance": 24.1,
+          "impact": 0.48
         },
         {
-          "player": "Damian Lillard",
-          "team": "POR",
-          "status": "Expected to be out until at least Oct 1",
+          "player": "Onyeka Okongwu",
+          "team": "ATL",
+          "status": "Expected to be out until at least Apr 20",
+          "importance": 25.9,
+          "impact": 0.52
+        },
+        {
+          "player": "Jock Landale",
+          "team": "ATL",
+          "status": "Expected to be out until at least May 2",
           "importance": 15.0,
           "impact": 0.3
+        }
+      ]
+    },
+    {
+      "home_team": "Denver Nuggets",
+      "away_team": "Minnesota Timberwolves",
+      "home_abbr": "DEN",
+      "away_abbr": "MIN",
+      "home_win_prob": 0.649,
+      "away_win_prob": 0.351,
+      "raw_prob": 0.6420000195503235,
+      "injury_adjustment": 0.006,
+      "home_injury_score": 0.43,
+      "away_injury_score": 0.75,
+      "home_rest": 6,
+      "away_rest": 6,
+      "status": "10:30 pm ET",
+      "injuries": [
+        {
+          "player": "Peyton Watson",
+          "team": "DEN",
+          "status": "Expected to be out until at least Apr 23",
+          "importance": 21.6,
+          "impact": 0.43
+        },
+        {
+          "player": "Anthony Edwards",
+          "team": "MIN",
+          "status": "Expected to be out until at least Apr 20",
+          "importance": 37.5,
+          "impact": 0.75
         }
       ]
     }

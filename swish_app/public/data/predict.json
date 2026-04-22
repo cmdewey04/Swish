@@ -1,128 +1,76 @@
 {
-  "date": "2026-04-21",
-  "generated_at": "2026-04-21T20:02:28.377626",
-  "model_accuracy": "72.65%",
+  "date": "2026-04-22",
+  "generated_at": "2026-04-22T20:03:54.253532",
+  "model_accuracy": "75.92%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Boston Celtics",
-      "away_team": "Philadelphia 76ers",
-      "home_abbr": "BOS",
-      "away_abbr": "PHI",
-      "home_win_prob": 0.803,
-      "away_win_prob": 0.197,
-      "raw_prob": 0.7900000214576721,
-      "injury_adjustment": 0.013,
-      "home_injury_score": 0.13,
-      "away_injury_score": 0.77,
-      "home_rest": 8,
-      "away_rest": 8,
+      "home_team": "Detroit Pistons",
+      "away_team": "Orlando Magic",
+      "home_abbr": "DET",
+      "away_abbr": "ORL",
+      "home_win_prob": 0.773,
+      "away_win_prob": 0.227,
+      "raw_prob": 0.7710000276565552,
+      "injury_adjustment": 0.002,
+      "home_injury_score": 0.0,
+      "away_injury_score": 0.11,
+      "home_rest": 9,
+      "away_rest": 9,
       "status": "7:00 pm ET",
       "injuries": [
         {
-          "player": "Ron Harper Jr.",
-          "team": "BOS",
-          "status": "Expected to be out until at least Apr 21",
-          "importance": 6.7,
-          "impact": 0.13
-        },
-        {
-          "player": "Joel Embiid",
-          "team": "PHI",
-          "status": "Expected to be out until at least Apr 24",
-          "importance": 38.5,
-          "impact": 0.77
-        }
-      ]
-    },
-    {
-      "home_team": "San Antonio Spurs",
-      "away_team": "Portland Trail Blazers",
-      "home_abbr": "SAS",
-      "away_abbr": "POR",
-      "home_win_prob": 0.749,
-      "away_win_prob": 0.251,
-      "raw_prob": 0.7459999918937683,
-      "injury_adjustment": 0.002,
-      "home_injury_score": 0.19,
-      "away_injury_score": 0.3,
-      "home_rest": 7,
-      "away_rest": 7,
-      "status": "8:00 pm ET",
-      "injuries": [
-        {
-          "player": "Jordan McLaughlin",
-          "team": "SAS",
-          "status": "Expected to be out until at least Apr 24",
-          "importance": 3.6,
-          "impact": 0.07
-        },
-        {
-          "player": "David Jones",
-          "team": "SAS",
-          "status": "Expected to be out until at least Jul 2",
-          "importance": 5.7,
+          "player": "Jonathan Isaac",
+          "team": "ORL",
+          "status": "Expected to be out until at least Apr 25",
+          "importance": 5.5,
           "impact": 0.11
-        },
-        {
-          "player": "Damian Lillard",
-          "team": "POR",
-          "status": "Expected to be out until at least Oct 1",
-          "importance": 15.0,
-          "impact": 0.3
         }
       ]
     },
     {
-      "home_team": "Los Angeles Lakers",
-      "away_team": "Houston Rockets",
-      "home_abbr": "LAL",
-      "away_abbr": "HOU",
-      "home_win_prob": 0.474,
-      "away_win_prob": 0.526,
-      "raw_prob": 0.47999998927116394,
-      "injury_adjustment": -0.006,
-      "home_injury_score": 1.66,
-      "away_injury_score": 1.34,
-      "home_rest": 7,
-      "away_rest": 7,
-      "status": "10:30 pm ET",
+      "home_team": "Oklahoma City Thunder",
+      "away_team": "Phoenix Suns",
+      "home_abbr": "OKC",
+      "away_abbr": "PHX",
+      "home_win_prob": 0.711,
+      "away_win_prob": 0.289,
+      "raw_prob": 0.6930000185966492,
+      "injury_adjustment": 0.018,
+      "home_injury_score": 0.3,
+      "away_injury_score": 1.19,
+      "home_rest": 8,
+      "away_rest": 8,
+      "status": "9:30 pm ET",
       "injuries": [
         {
-          "player": "Austin Reaves",
-          "team": "LAL",
-          "status": "Expected to be out until at least May 1",
-          "importance": 33.5,
-          "impact": 0.67
-        },
-        {
-          "player": "Luka Doncic",
-          "team": "LAL",
-          "status": "Expected to be out until at least May 1",
-          "importance": 49.5,
-          "impact": 0.99
-        },
-        {
-          "player": "Kevin Durant",
-          "team": "HOU",
-          "status": "Expected to be out until at least Apr 21",
-          "importance": 36.2,
-          "impact": 0.72
-        },
-        {
-          "player": "Steven Adams",
-          "team": "HOU",
+          "player": "Thomas Sorber",
+          "team": "OKC",
           "status": "Expected to be out until at least Oct 1",
-          "importance": 16.0,
-          "impact": 0.32
-        },
-        {
-          "player": "Fred VanVleet",
-          "team": "HOU",
-          "status": "Expected to be out until at least Jun 1",
           "importance": 15.0,
           "impact": 0.3
+        },
+        {
+          "player": "Grayson Allen",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 22",
+          "importance": 23.4,
+          "impact": 0.47
+        },
+        {
+          "player": "Mark Williams",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 22",
+          "importance": 20.6,
+          "impact": 0.41
+        },
+        {
+          "player": "Jordan Goodwin",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 22",
+          "importance": 15.7,
+          "impact": 0.31
         }
       ]
     }

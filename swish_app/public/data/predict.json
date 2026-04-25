@@ -1,76 +1,152 @@
 {
-  "date": "2026-04-22",
-  "generated_at": "2026-04-22T20:03:54.253532",
-  "model_accuracy": "75.92%",
+  "date": "2026-04-25",
+  "generated_at": "2026-04-25T19:42:09.755768",
+  "model_accuracy": "75.10%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Detroit Pistons",
-      "away_team": "Orlando Magic",
-      "home_abbr": "DET",
-      "away_abbr": "ORL",
-      "home_win_prob": 0.773,
-      "away_win_prob": 0.227,
-      "raw_prob": 0.7710000276565552,
-      "injury_adjustment": 0.002,
-      "home_injury_score": 0.0,
-      "away_injury_score": 0.11,
-      "home_rest": 9,
-      "away_rest": 9,
-      "status": "7:00 pm ET",
+      "home_team": "Phoenix Suns",
+      "away_team": "Oklahoma City Thunder",
+      "home_abbr": "PHX",
+      "away_abbr": "OKC",
+      "home_win_prob": 0.174,
+      "away_win_prob": 0.826,
+      "raw_prob": 0.17499999701976776,
+      "injury_adjustment": -0.001,
+      "home_injury_score": 1.19,
+      "away_injury_score": 1.14,
+      "home_rest": 11,
+      "away_rest": 11,
+      "status": "Q1 9:22",
       "injuries": [
         {
-          "player": "Jonathan Isaac",
-          "team": "ORL",
-          "status": "Expected to be out until at least Apr 25",
-          "importance": 5.5,
-          "impact": 0.11
-        }
-      ]
-    },
-    {
-      "home_team": "Oklahoma City Thunder",
-      "away_team": "Phoenix Suns",
-      "home_abbr": "OKC",
-      "away_abbr": "PHX",
-      "home_win_prob": 0.711,
-      "away_win_prob": 0.289,
-      "raw_prob": 0.6930000185966492,
-      "injury_adjustment": 0.018,
-      "home_injury_score": 0.3,
-      "away_injury_score": 1.19,
-      "home_rest": 8,
-      "away_rest": 8,
-      "status": "9:30 pm ET",
-      "injuries": [
-        {
-          "player": "Thomas Sorber",
-          "team": "OKC",
-          "status": "Expected to be out until at least Oct 1",
-          "importance": 15.0,
-          "impact": 0.3
+          "player": "Jordan Goodwin",
+          "team": "PHX",
+          "status": "Expected to be out until at least Apr 27",
+          "importance": 15.7,
+          "impact": 0.31
         },
         {
           "player": "Grayson Allen",
           "team": "PHX",
-          "status": "Expected to be out until at least Apr 22",
+          "status": "Expected to be out until at least Apr 25",
           "importance": 23.4,
           "impact": 0.47
         },
         {
           "player": "Mark Williams",
           "team": "PHX",
-          "status": "Expected to be out until at least Apr 22",
+          "status": "Expected to be out until at least Apr 27",
           "importance": 20.6,
           "impact": 0.41
         },
         {
-          "player": "Jordan Goodwin",
-          "team": "PHX",
-          "status": "Expected to be out until at least Apr 22",
-          "importance": 15.7,
-          "impact": 0.31
+          "player": "Isaiah Joe",
+          "team": "OKC",
+          "status": "Expected to be out until at least Apr 27",
+          "importance": 14.9,
+          "impact": 0.3
+        },
+        {
+          "player": "Jalen Williams",
+          "team": "OKC",
+          "status": "Expected to be out until at least May 1",
+          "importance": 27.2,
+          "impact": 0.54
+        },
+        {
+          "player": "Thomas Sorber",
+          "team": "OKC",
+          "status": "Expected to be out until at least Oct 1",
+          "importance": 15.0,
+          "impact": 0.3
+        }
+      ]
+    },
+    {
+      "home_team": "Orlando Magic",
+      "away_team": "Detroit Pistons",
+      "home_abbr": "ORL",
+      "away_abbr": "DET",
+      "home_win_prob": 0.202,
+      "away_win_prob": 0.798,
+      "raw_prob": 0.20399999618530273,
+      "injury_adjustment": -0.002,
+      "home_injury_score": 0.11,
+      "away_injury_score": 0.0,
+      "home_rest": 12,
+      "away_rest": 12,
+      "status": "Q4 1:46",
+      "injuries": [
+        {
+          "player": "Jonathan Isaac",
+          "team": "ORL",
+          "status": "Expected to be out until at least Apr 27",
+          "importance": 5.5,
+          "impact": 0.11
+        }
+      ]
+    },
+    {
+      "home_team": "Atlanta Hawks",
+      "away_team": "New York Knicks",
+      "home_abbr": "ATL",
+      "away_abbr": "NYK",
+      "home_win_prob": 0.469,
+      "away_win_prob": 0.531,
+      "raw_prob": 0.4830000102519989,
+      "injury_adjustment": -0.014,
+      "home_injury_score": 0.7,
+      "away_injury_score": 0.0,
+      "home_rest": 12,
+      "away_rest": 12,
+      "status": "6:00 pm ET",
+      "injuries": [
+        {
+          "player": "Keshon Gilbert",
+          "team": "ATL",
+          "status": "Expected to be out until at least Jul 2",
+          "importance": 20.0,
+          "impact": 0.4
+        },
+        {
+          "player": "Jock Landale",
+          "team": "ATL",
+          "status": "Expected to be out until at least May 2",
+          "importance": 15.0,
+          "impact": 0.3
+        }
+      ]
+    },
+    {
+      "home_team": "Minnesota Timberwolves",
+      "away_team": "Denver Nuggets",
+      "home_abbr": "MIN",
+      "away_abbr": "DEN",
+      "home_win_prob": 0.615,
+      "away_win_prob": 0.385,
+      "raw_prob": 0.597000002861023,
+      "injury_adjustment": 0.018,
+      "home_injury_score": 0.0,
+      "away_injury_score": 0.92,
+      "home_rest": 11,
+      "away_rest": 11,
+      "status": "8:30 pm ET",
+      "injuries": [
+        {
+          "player": "Aaron Gordon",
+          "team": "DEN",
+          "status": "Expected to be out until at least Apr 25",
+          "importance": 24.6,
+          "impact": 0.49
+        },
+        {
+          "player": "Peyton Watson",
+          "team": "DEN",
+          "status": "Expected to be out until at least Apr 27",
+          "importance": 21.6,
+          "impact": 0.43
         }
       ]
     }

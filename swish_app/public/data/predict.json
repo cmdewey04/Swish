@@ -1,121 +1,135 @@
 {
-  "date": "2026-04-30",
-  "generated_at": "2026-04-30T20:08:42.778902",
-  "model_accuracy": "72.65%",
+  "date": "2026-05-01",
+  "generated_at": "2026-05-01T20:03:54.922828",
+  "model_accuracy": "75.92%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Atlanta Hawks",
-      "away_team": "New York Knicks",
-      "home_abbr": "ATL",
-      "away_abbr": "NYK",
-      "home_win_prob": 0.424,
-      "away_win_prob": 0.576,
-      "raw_prob": 0.42800000309944153,
-      "injury_adjustment": -0.004,
-      "home_injury_score": 0.7,
-      "away_injury_score": 0.48,
-      "home_rest": 17,
-      "away_rest": 17,
+      "home_team": "Orlando Magic",
+      "away_team": "Detroit Pistons",
+      "home_abbr": "ORL",
+      "away_abbr": "DET",
+      "home_win_prob": 0.191,
+      "away_win_prob": 0.809,
+      "raw_prob": 0.19099999964237213,
+      "injury_adjustment": 0.0,
+      "home_injury_score": 0.69,
+      "away_injury_score": 0.7,
+      "home_rest": 18,
+      "away_rest": 18,
       "status": "7:00 pm ET",
       "injuries": [
         {
-          "player": "Keshon Gilbert",
-          "team": "ATL",
-          "status": "Expected to be out until at least Jul 2",
-          "importance": 20.0,
-          "impact": 0.4
+          "player": "Franz Wagner",
+          "team": "ORL",
+          "status": "Expected to be out until at least May 3",
+          "importance": 29.1,
+          "impact": 0.58
         },
         {
-          "player": "Jock Landale",
-          "team": "ATL",
-          "status": "Expected to be out until at least May 2",
+          "player": "Jonathan Isaac",
+          "team": "ORL",
+          "status": "Expected to be out until at least May 1",
+          "importance": 5.5,
+          "impact": 0.11
+        },
+        {
+          "player": "Tobias Harris",
+          "team": "DET",
+          "status": "Expected to be out until at least May 1",
+          "importance": 20.9,
+          "impact": 0.42
+        },
+        {
+          "player": "Kevin Huerter",
+          "team": "DET",
+          "status": "Expected to be out until at least May 1",
+          "importance": 13.9,
+          "impact": 0.28
+        }
+      ]
+    },
+    {
+      "home_team": "Toronto Raptors",
+      "away_team": "Cleveland Cavaliers",
+      "home_abbr": "TOR",
+      "away_abbr": "CLE",
+      "home_win_prob": 0.463,
+      "away_win_prob": 0.537,
+      "raw_prob": 0.4860000014305115,
+      "injury_adjustment": -0.023,
+      "home_injury_score": 1.17,
+      "away_injury_score": 0.0,
+      "home_rest": 18,
+      "away_rest": 18,
+      "status": "7:30 pm ET",
+      "injuries": [
+        {
+          "player": "Brandon Ingram",
+          "team": "TOR",
+          "status": "Expected to be out until at least May 1",
+          "importance": 30.8,
+          "impact": 0.62
+        },
+        {
+          "player": "Immanuel Quickley",
+          "team": "TOR",
+          "status": "Expected to be out until at least May 5",
+          "importance": 26.4,
+          "impact": 0.53
+        },
+        {
+          "player": "Chucky Hepburn",
+          "team": "TOR",
+          "status": "Expected to be out until at least Jul 2",
+          "importance": 1.5,
+          "impact": 0.03
+        }
+      ]
+    },
+    {
+      "home_team": "Houston Rockets",
+      "away_team": "Los Angeles Lakers",
+      "home_abbr": "HOU",
+      "away_abbr": "LAL",
+      "home_win_prob": 0.549,
+      "away_win_prob": 0.451,
+      "raw_prob": 0.5559999942779541,
+      "injury_adjustment": -0.007,
+      "home_injury_score": 1.34,
+      "away_injury_score": 0.99,
+      "home_rest": 17,
+      "away_rest": 17,
+      "status": "9:30 pm ET",
+      "injuries": [
+        {
+          "player": "Kevin Durant",
+          "team": "HOU",
+          "status": "Expected to be out until at least May 3",
+          "importance": 36.2,
+          "impact": 0.72
+        },
+        {
+          "player": "Steven Adams",
+          "team": "HOU",
+          "status": "Expected to be out until at least Oct 1",
+          "importance": 16.0,
+          "impact": 0.32
+        },
+        {
+          "player": "Fred VanVleet",
+          "team": "HOU",
+          "status": "Expected to be out until at least Jun 1",
           "importance": 15.0,
           "impact": 0.3
         },
         {
-          "player": "Josh Hart",
-          "team": "NYK",
-          "status": "Expected to be out until at least Apr 30",
-          "importance": 24.2,
-          "impact": 0.48
-        }
-      ]
-    },
-    {
-      "home_team": "Philadelphia 76ers",
-      "away_team": "Boston Celtics",
-      "home_abbr": "PHI",
-      "away_abbr": "BOS",
-      "home_win_prob": 0.241,
-      "away_win_prob": 0.759,
-      "raw_prob": 0.25600001215934753,
-      "injury_adjustment": -0.015,
-      "home_injury_score": 0.77,
-      "away_injury_score": 0.0,
-      "home_rest": 17,
-      "away_rest": 17,
-      "status": "8:00 pm ET",
-      "injuries": [
-        {
-          "player": "Joel Embiid",
-          "team": "PHI",
-          "status": "Expected to be out until at least Apr 30",
-          "importance": 38.5,
-          "impact": 0.77
-        }
-      ]
-    },
-    {
-      "home_team": "Minnesota Timberwolves",
-      "away_team": "Denver Nuggets",
-      "home_abbr": "MIN",
-      "away_abbr": "DEN",
-      "home_win_prob": 0.5,
-      "away_win_prob": 0.5,
-      "raw_prob": 0.5130000114440918,
-      "injury_adjustment": -0.013,
-      "home_injury_score": 1.59,
-      "away_injury_score": 0.92,
-      "home_rest": 16,
-      "away_rest": 16,
-      "status": "9:30 pm ET",
-      "injuries": [
-        {
-          "player": "Ayo Dosunmu",
-          "team": "MIN",
-          "status": "Expected to be out until at least Apr 30",
-          "importance": 22.1,
-          "impact": 0.44
-        },
-        {
-          "player": "Anthony Edwards",
-          "team": "MIN",
-          "status": "Expected to be out until at least May 9",
-          "importance": 37.5,
-          "impact": 0.75
-        },
-        {
-          "player": "Donte DiVincenzo",
-          "team": "MIN",
-          "status": "Expected to be out until at least Apr 1",
-          "importance": 20.1,
-          "impact": 0.4
-        },
-        {
-          "player": "Peyton Watson",
-          "team": "DEN",
-          "status": "Expected to be out until at least May 2",
-          "importance": 21.6,
-          "impact": 0.43
-        },
-        {
-          "player": "Aaron Gordon",
-          "team": "DEN",
-          "status": "Expected to be out until at least Apr 30",
-          "importance": 24.6,
-          "impact": 0.49
+          "player": "Luka Doncic",
+          "team": "LAL",
+          "status": "Expected to be out until at least May 3",
+          "importance": 49.5,
+          "impact": 0.99
         }
       ]
     }

@@ -1,45 +1,83 @@
 {
-  "date": "2026-05-02",
-  "generated_at": "2026-05-02T19:53:07.879232",
-  "model_accuracy": "72.65%",
+  "date": "2026-05-03",
+  "generated_at": "2026-05-03T19:52:56.081362",
+  "model_accuracy": "76.33%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Boston Celtics",
-      "away_team": "Philadelphia 76ers",
-      "home_abbr": "BOS",
-      "away_abbr": "PHI",
-      "home_win_prob": 0.815,
-      "away_win_prob": 0.185,
-      "raw_prob": 0.8040000200271606,
-      "injury_adjustment": 0.011,
-      "home_injury_score": 0.74,
-      "away_injury_score": 1.3,
-      "home_rest": 19,
-      "away_rest": 19,
+      "home_team": "Detroit Pistons",
+      "away_team": "Orlando Magic",
+      "home_abbr": "DET",
+      "away_abbr": "ORL",
+      "home_win_prob": 0.808,
+      "away_win_prob": 0.192,
+      "raw_prob": 0.800000011920929,
+      "injury_adjustment": 0.008,
+      "home_injury_score": 0.28,
+      "away_injury_score": 0.69,
+      "home_rest": 20,
+      "away_rest": 20,
+      "status": "Q1 6:17",
+      "injuries": [
+        {
+          "player": "Kevin Huerter",
+          "team": "DET",
+          "status": "Expected to be out until at least May 5",
+          "importance": 13.9,
+          "impact": 0.28
+        },
+        {
+          "player": "Jonathan Isaac",
+          "team": "ORL",
+          "status": "Expected to be out until at least May 5",
+          "importance": 5.5,
+          "impact": 0.11
+        },
+        {
+          "player": "Franz Wagner",
+          "team": "ORL",
+          "status": "Expected to be out until at least May 5",
+          "importance": 29.1,
+          "impact": 0.58
+        }
+      ]
+    },
+    {
+      "home_team": "Cleveland Cavaliers",
+      "away_team": "Toronto Raptors",
+      "home_abbr": "CLE",
+      "away_abbr": "TOR",
+      "home_win_prob": 0.855,
+      "away_win_prob": 0.145,
+      "raw_prob": 0.8320000171661377,
+      "injury_adjustment": 0.023,
+      "home_injury_score": 0.0,
+      "away_injury_score": 1.17,
+      "home_rest": 20,
+      "away_rest": 20,
       "status": "7:30 pm ET",
       "injuries": [
         {
-          "player": "Jayson Tatum",
-          "team": "BOS",
-          "status": "Expected to be out until at least May 2",
-          "importance": 37.1,
-          "impact": 0.74
+          "player": "Brandon Ingram",
+          "team": "TOR",
+          "status": "Expected to be out until at least May 3",
+          "importance": 30.8,
+          "impact": 0.62
         },
         {
-          "player": "Paul George",
-          "team": "PHI",
-          "status": "Expected to be out until at least May 2",
-          "importance": 26.2,
-          "impact": 0.52
+          "player": "Immanuel Quickley",
+          "team": "TOR",
+          "status": "Expected to be out until at least May 5",
+          "importance": 26.4,
+          "impact": 0.53
         },
         {
-          "player": "Joel Embiid",
-          "team": "PHI",
-          "status": "Expected to be out until at least May 2",
-          "importance": 38.5,
-          "impact": 0.77
+          "player": "Chucky Hepburn",
+          "team": "TOR",
+          "status": "Expected to be out until at least Jul 2",
+          "importance": 1.5,
+          "impact": 0.03
         }
       ]
     }

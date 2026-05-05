@@ -1,90 +1,76 @@
 {
-  "date": "2026-05-04",
-  "generated_at": "2026-05-04T20:13:45.681557",
-  "model_accuracy": "74.29%",
+  "date": "2026-05-05",
+  "generated_at": "2026-05-05T20:05:32.528500",
+  "model_accuracy": "72.65%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "New York Knicks",
-      "away_team": "Philadelphia 76ers",
-      "home_abbr": "NYK",
-      "away_abbr": "PHI",
-      "home_win_prob": 0.716,
-      "away_win_prob": 0.284,
-      "raw_prob": 0.703000009059906,
-      "injury_adjustment": 0.013,
-      "home_injury_score": 0.11,
-      "away_injury_score": 0.77,
-      "home_rest": 21,
-      "away_rest": 21,
-      "status": "8:00 pm ET",
+      "home_team": "Detroit Pistons",
+      "away_team": "Cleveland Cavaliers",
+      "home_abbr": "DET",
+      "away_abbr": "CLE",
+      "home_win_prob": 0.67,
+      "away_win_prob": 0.33,
+      "raw_prob": 0.6819999814033508,
+      "injury_adjustment": -0.012,
+      "home_injury_score": 0.58,
+      "away_injury_score": 0.0,
+      "home_rest": 22,
+      "away_rest": 22,
+      "status": "7:00 pm ET",
       "injuries": [
         {
-          "player": "Jeremy Sochan",
-          "team": "NYK",
-          "status": "Game Time Decision",
-          "importance": 5.6,
-          "impact": 0.11
+          "player": "Charles Bediako",
+          "team": "DET",
+          "status": "\u2014",
+          "importance": 15.0,
+          "impact": 0.3
         },
         {
-          "player": "Joel Embiid",
-          "team": "PHI",
+          "player": "Kevin Huerter",
+          "team": "DET",
           "status": "Game Time Decision",
-          "importance": 38.5,
-          "impact": 0.77
+          "importance": 13.9,
+          "impact": 0.28
         }
       ]
     },
     {
-      "home_team": "San Antonio Spurs",
-      "away_team": "Minnesota Timberwolves",
-      "home_abbr": "SAS",
-      "away_abbr": "MIN",
-      "home_win_prob": 0.631,
-      "away_win_prob": 0.369,
-      "raw_prob": 0.6050000190734863,
-      "injury_adjustment": 0.027,
-      "home_injury_score": 0.26,
-      "away_injury_score": 1.59,
-      "home_rest": 20,
-      "away_rest": 20,
-      "status": "9:30 pm ET",
+      "home_team": "Oklahoma City Thunder",
+      "away_team": "Los Angeles Lakers",
+      "home_abbr": "OKC",
+      "away_abbr": "LAL",
+      "home_win_prob": 0.703,
+      "away_win_prob": 0.297,
+      "raw_prob": 0.7009999752044678,
+      "injury_adjustment": 0.003,
+      "home_injury_score": 0.84,
+      "away_injury_score": 0.99,
+      "home_rest": 21,
+      "away_rest": 21,
+      "status": "8:30 pm ET",
       "injuries": [
         {
-          "player": "Carter Bryant",
-          "team": "SAS",
-          "status": "Game Time Decision",
-          "importance": 7.4,
-          "impact": 0.15
+          "player": "Jalen Williams",
+          "team": "OKC",
+          "status": "Expected to be out until at least May 7",
+          "importance": 27.2,
+          "impact": 0.54
         },
         {
-          "player": "David Jones",
-          "team": "SAS",
+          "player": "Thomas Sorber",
+          "team": "OKC",
           "status": "Out for the season",
-          "importance": 5.7,
-          "impact": 0.11
+          "importance": 15.0,
+          "impact": 0.3
         },
         {
-          "player": "Ayo Dosunmu",
-          "team": "MIN",
-          "status": "Expected to be out until at least May 6",
-          "importance": 22.1,
-          "impact": 0.44
-        },
-        {
-          "player": "Anthony Edwards",
-          "team": "MIN",
-          "status": "Game Time Decision",
-          "importance": 37.5,
-          "impact": 0.75
-        },
-        {
-          "player": "Donte DiVincenzo",
-          "team": "MIN",
-          "status": "Out for the season",
-          "importance": 20.1,
-          "impact": 0.4
+          "player": "Luka Doncic",
+          "team": "LAL",
+          "status": "Expected to be out until at least May 9",
+          "importance": 49.5,
+          "impact": 0.99
         }
       ]
     }

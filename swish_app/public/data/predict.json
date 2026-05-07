@@ -1,7 +1,7 @@
 {
-  "date": "2026-05-05",
-  "generated_at": "2026-05-05T20:05:32.528500",
-  "model_accuracy": "72.65%",
+  "date": "2026-05-07",
+  "generated_at": "2026-05-07T20:11:52.219906",
+  "model_accuracy": "75.92%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
@@ -10,29 +10,29 @@
       "away_team": "Cleveland Cavaliers",
       "home_abbr": "DET",
       "away_abbr": "CLE",
-      "home_win_prob": 0.67,
-      "away_win_prob": 0.33,
-      "raw_prob": 0.6819999814033508,
-      "injury_adjustment": -0.012,
-      "home_injury_score": 0.58,
-      "away_injury_score": 0.0,
-      "home_rest": 22,
-      "away_rest": 22,
+      "home_win_prob": 0.621,
+      "away_win_prob": 0.379,
+      "raw_prob": 0.6200000047683716,
+      "injury_adjustment": 0.002,
+      "home_injury_score": 0.28,
+      "away_injury_score": 0.35,
+      "home_rest": 24,
+      "away_rest": 24,
       "status": "7:00 pm ET",
       "injuries": [
-        {
-          "player": "Charles Bediako",
-          "team": "DET",
-          "status": "\u2014",
-          "importance": 15.0,
-          "impact": 0.3
-        },
         {
           "player": "Kevin Huerter",
           "team": "DET",
           "status": "Game Time Decision",
           "importance": 13.9,
           "impact": 0.28
+        },
+        {
+          "player": "Sam Merrill",
+          "team": "CLE",
+          "status": "Game Time Decision",
+          "importance": 17.7,
+          "impact": 0.35
         }
       ]
     },
@@ -41,20 +41,20 @@
       "away_team": "Los Angeles Lakers",
       "home_abbr": "OKC",
       "away_abbr": "LAL",
-      "home_win_prob": 0.703,
-      "away_win_prob": 0.297,
-      "raw_prob": 0.7009999752044678,
-      "injury_adjustment": 0.003,
+      "home_win_prob": 0.789,
+      "away_win_prob": 0.211,
+      "raw_prob": 0.7760000228881836,
+      "injury_adjustment": 0.013,
       "home_injury_score": 0.84,
-      "away_injury_score": 0.99,
-      "home_rest": 21,
-      "away_rest": 21,
-      "status": "8:30 pm ET",
+      "away_injury_score": 1.47,
+      "home_rest": 23,
+      "away_rest": 23,
+      "status": "9:30 pm ET",
       "injuries": [
         {
           "player": "Jalen Williams",
           "team": "OKC",
-          "status": "Expected to be out until at least May 7",
+          "status": "Expected to be out until at least May 9",
           "importance": 27.2,
           "impact": 0.54
         },
@@ -64,6 +64,20 @@
           "status": "Out for the season",
           "importance": 15.0,
           "impact": 0.3
+        },
+        {
+          "player": "Luke Kennard",
+          "team": "LAL",
+          "status": "Game Time Decision",
+          "importance": 14.0,
+          "impact": 0.28
+        },
+        {
+          "player": "Jarred Vanderbilt",
+          "team": "LAL",
+          "status": "Game Time Decision",
+          "importance": 10.2,
+          "impact": 0.2
         },
         {
           "player": "Luka Doncic",

@@ -1,76 +1,69 @@
 {
-  "date": "2026-05-09",
-  "generated_at": "2026-05-09T19:55:52.780441",
-  "model_accuracy": "72.65%",
+  "date": "2026-05-10",
+  "generated_at": "2026-05-10T19:58:02.000067",
+  "model_accuracy": "74.29%",
   "total_matchups_trained": 1224,
   "has_injuries": true,
   "games": [
     {
-      "home_team": "Cleveland Cavaliers",
-      "away_team": "Detroit Pistons",
-      "home_abbr": "CLE",
-      "away_abbr": "DET",
-      "home_win_prob": 0.578,
-      "away_win_prob": 0.422,
-      "raw_prob": 0.5730000138282776,
-      "injury_adjustment": 0.006,
-      "home_injury_score": 0.0,
-      "away_injury_score": 0.28,
-      "home_rest": 26,
-      "away_rest": 26,
-      "status": "Q2 7:56",
+      "home_team": "Philadelphia 76ers",
+      "away_team": "New York Knicks",
+      "home_abbr": "PHI",
+      "away_abbr": "NYK",
+      "home_win_prob": 0.411,
+      "away_win_prob": 0.589,
+      "raw_prob": 0.4169999957084656,
+      "injury_adjustment": -0.006,
+      "home_injury_score": 0.77,
+      "away_injury_score": 0.48,
+      "home_rest": 27,
+      "away_rest": 27,
+      "status": "Q1 2:42",
       "injuries": [
         {
-          "player": "Kevin Huerter",
-          "team": "DET",
-          "status": "Expected to be out until at least May 9",
-          "importance": 13.9,
-          "impact": 0.28
+          "player": "Joel Embiid",
+          "team": "PHI",
+          "status": "Game Time Decision",
+          "importance": 38.5,
+          "impact": 0.77
+        },
+        {
+          "player": "OG Anunoby",
+          "team": "NYK",
+          "status": "Expected to be out until at least May 12",
+          "importance": 24.1,
+          "impact": 0.48
         }
       ]
     },
     {
-      "home_team": "Los Angeles Lakers",
-      "away_team": "Oklahoma City Thunder",
-      "home_abbr": "LAL",
-      "away_abbr": "OKC",
-      "home_win_prob": 0.237,
-      "away_win_prob": 0.763,
-      "raw_prob": 0.24400000274181366,
-      "injury_adjustment": -0.007,
-      "home_injury_score": 1.19,
-      "away_injury_score": 0.84,
-      "home_rest": 25,
-      "away_rest": 25,
-      "status": "8:30 pm ET",
+      "home_team": "Minnesota Timberwolves",
+      "away_team": "San Antonio Spurs",
+      "home_abbr": "MIN",
+      "away_abbr": "SAS",
+      "home_win_prob": 0.391,
+      "away_win_prob": 0.609,
+      "raw_prob": 0.3959999978542328,
+      "injury_adjustment": -0.006,
+      "home_injury_score": 0.4,
+      "away_injury_score": 0.11,
+      "home_rest": 26,
+      "away_rest": 26,
+      "status": "7:30 pm ET",
       "injuries": [
         {
-          "player": "Jarred Vanderbilt",
-          "team": "LAL",
-          "status": "Game Time Decision",
-          "importance": 10.2,
-          "impact": 0.2
-        },
-        {
-          "player": "Luka Doncic",
-          "team": "LAL",
-          "status": "Expected to be out until at least May 11",
-          "importance": 49.5,
-          "impact": 0.99
-        },
-        {
-          "player": "Jalen Williams",
-          "team": "OKC",
-          "status": "Game Time Decision",
-          "importance": 27.2,
-          "impact": 0.54
-        },
-        {
-          "player": "Thomas Sorber",
-          "team": "OKC",
+          "player": "Donte DiVincenzo",
+          "team": "MIN",
           "status": "Out for the season",
-          "importance": 15.0,
-          "impact": 0.3
+          "importance": 20.1,
+          "impact": 0.4
+        },
+        {
+          "player": "David Jones",
+          "team": "SAS",
+          "status": "Out for the season",
+          "importance": 5.7,
+          "impact": 0.11
         }
       ]
     }
